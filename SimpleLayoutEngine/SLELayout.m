@@ -117,16 +117,12 @@
     }
   }
 
-  // set item size
+  // update item frame
   CGFloat maxFlexSpace = _direction == SLELayoutDirectionColumn ? _parentSize.height : _parentSize.width;
   CGFloat itemSpace = (maxFlexSpace - usedSpace) / (CGFloat)flexItems;
-  for (SLELayoutItem *item in _items) {
-    [self updateSizeForItem:item itemSpace:itemSpace];
-  }
-
-  // set origin
   CGPoint itemOrigin = CGPointZero;
   for (SLELayoutItem *item in _items) {
+    [self updateSizeForItem:item itemSpace:itemSpace];
     itemOrigin = [self updateOriginForItem:item lastItemOrigin:itemOrigin];
   }
 }
@@ -141,5 +137,4 @@
 {
   return [[_items objectAtIndex:index] frame];
 }
-
 @end
