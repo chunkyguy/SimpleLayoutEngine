@@ -15,14 +15,15 @@ typedef NS_ENUM(NSUInteger, SLELayoutDirection) {
 };
 
 typedef NS_ENUM(NSUInteger, SLELayoutAlignment) {
-  SLELayoutAlignmentStart,
+  SLELayoutAlignmentLeading,
   SLELayoutAlignmentCenter,
-  SLELayoutAlignmentEnd
+  SLELayoutAlignmentTrailing
 };
 
 @interface SLELayout : NSObject
 + (instancetype)layoutWithParentBounds:(CGRect)bounds
-                             direction:(SLELayoutDirection)direction;
+                             direction:(SLELayoutDirection)direction
+                             alignment:(SLELayoutAlignment)alignment;
 
 - (void)addItem:(SLELayoutItem *)item;
 - (CGRect)frameAtIndex:(NSInteger)index;

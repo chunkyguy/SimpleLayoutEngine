@@ -32,7 +32,8 @@
 {
   UIEdgeInsets insets = self.view.safeAreaInsets;
   SLELayout *mainLayout = [SLELayout layoutWithParentBounds:self.view.bounds
-                                                  direction:SLELayoutDirectionColumn];
+                                                  direction:SLELayoutDirectionColumn
+                                                  alignment:SLELayoutAlignmentLeading];
 
   SLELayoutItem *previewLayout = [SLELayoutItem itemWithHeight:self.view.bounds.size.width];
   SLELayoutItem *toolbarLayout = [SLELayoutItem itemWithHeight:44];
@@ -48,7 +49,8 @@
 
   CGRect imageContentFrame = [imageContentLayout frame];
   SLELayout *imageLayout = [SLELayout layoutWithParentBounds:imageContentFrame
-                                                   direction:SLELayoutDirectionRow];
+                                                   direction:SLELayoutDirectionRow
+                                                   alignment:SLELayoutAlignmentLeading];
   CGFloat contentImgWidth = (imageContentFrame.size.width / 2.0) - 2.f;
   SLELayoutItem *startImageVwLayout = [SLELayoutItem itemWithWidth:contentImgWidth];
   SLELayoutItem *endImageVwLayout = [SLELayoutItem itemWithWidth:contentImgWidth];

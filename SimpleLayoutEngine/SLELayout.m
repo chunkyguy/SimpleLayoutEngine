@@ -6,6 +6,8 @@
 #import "SLELayout.h"
 #import "SLELayoutItem+Internal.h"
 
+#define kSLEAssignIfUndefined(lhs, rhs) lhs = (lhs == kSLELayoutValueUndefined) ? rhs : lhs
+
 @interface SLELayout () {
   CGSize _parentSize;
   NSMutableArray *_items;
@@ -16,18 +18,21 @@
 
 @implementation SLELayout
 + (instancetype)layoutWithParentBounds:(CGRect)bounds
-                             direction:(SLELayoutDirection)direction;
+                             direction:(SLELayoutDirection)direction
+                             alignment:(SLELayoutAlignment)alignment;
 {
-  return [[[self class] alloc] initWithParentBounds:bounds direction:direction];
+  return [[[self class] alloc] initWithParentBounds:bounds direction:direction alignment:alignment];
 }
 
 - (instancetype)initWithParentBounds:(CGRect)bounds
                            direction:(SLELayoutDirection)direction
+                           alignment:(SLELayoutAlignment)alignment
 {
   self = [super init];
   if (self) {
     _parentSize = bounds.size;
     _direction = direction;
+    _alignment = alignment;
     _items = [[NSMutableArray alloc] init];
   }
   return self;
@@ -39,8 +44,67 @@
   [super dealloc];
 }
 
+- (void)updateSizeForItem:(SLELayoutItem *)item itemSpace:(CGFloat)itemSpace
+{
+  CGSize itemSize = item.originalFrame.size;
+  switch (_direction) {
+  case SLELayoutDirectionColumn:
+    kSLEAssignIfUndefined(itemSize.width, _parentSize.width);
+    kSLEAssignIfUndefined(itemSize.height, itemSpace);
+    break;
+  case SLELayoutDirectionRow:
+    kSLEAssignIfUndefined(itemSize.width, itemSpace);
+    kSLEAssignIfUndefined(itemSize.height, _parentSize.height);
+    break;
+  }
+  [item setSize:itemSize];
+}
+
+- (CGPoint)updateOriginForItem:(SLELayoutItem *)item lastItemOrigin:(CGPoint)itemOrigin
+{
+  CGSize itemSize = [item frame].size;
+  switch (_alignment) {
+  case SLELayoutAlignmentLeading:
+    break;
+  case SLELayoutAlignmentCenter:
+    switch (_direction) {
+    case SLELayoutDirectionColumn:
+      itemOrigin.x = (_parentSize.width - itemSize.width) / 2.f;
+      break;
+    case SLELayoutDirectionRow:
+      itemOrigin.y = (_parentSize.height - itemSize.height) / 2.f;
+      break;
+    }
+    break;
+  case SLELayoutAlignmentTrailing:
+    switch (_direction) {
+    case SLELayoutDirectionColumn:
+      itemOrigin.x = (_parentSize.width - itemSize.width);
+      break;
+    case SLELayoutDirectionRow:
+      itemOrigin.y = (_parentSize.height - itemSize.height);
+      break;
+    }
+    break;
+  }
+
+  [item setOrigin:itemOrigin];
+
+  switch (_direction) {
+  case SLELayoutDirectionColumn:
+    itemOrigin.y += itemSize.height;
+    break;
+  case SLELayoutDirectionRow:
+    itemOrigin.x += itemSize.width;
+    break;
+  }
+
+  return itemOrigin;
+}
+
 - (void)updateFrames
 {
+  // calculate flex space
   CGFloat usedSpace = 0;
   NSInteger flexItems = 0;
   for (SLELayoutItem *item in _items) {
@@ -53,32 +117,17 @@
     }
   }
 
-  CGFloat parentWidth = _parentSize.width;
-  CGFloat parentHeight = _parentSize.height;
-  CGFloat maxFlexSpace = _direction == SLELayoutDirectionColumn ? parentHeight : parentWidth;
-  CGFloat maxFixSpace = _direction == SLELayoutDirectionColumn ? parentWidth : parentHeight;
-  CGFloat remainingSpace = maxFlexSpace - usedSpace;
-  CGFloat remaingPerItemSpace = remainingSpace / (CGFloat)flexItems;
-
-  CGPoint offset = CGPointZero;
+  // set item size
+  CGFloat maxFlexSpace = _direction == SLELayoutDirectionColumn ? _parentSize.height : _parentSize.width;
+  CGFloat itemSpace = (maxFlexSpace - usedSpace) / (CGFloat)flexItems;
   for (SLELayoutItem *item in _items) {
-    CGSize itemSize = item.originalFrame.size;
-    if (_direction == SLELayoutDirectionColumn) {
-      CGFloat itemHeight = itemSize.height == kSLELayoutValueUndefined ? remaingPerItemSpace : itemSize.height;
-      itemSize = (CGSize) { .width = maxFixSpace, .height = itemHeight };
-    } else {
-      CGFloat itemWidth = itemSize.width == kSLELayoutValueUndefined ? remaingPerItemSpace : itemSize.width;
-      itemSize = (CGSize) { .width = itemWidth, .height = maxFixSpace };
-    }
+    [self updateSizeForItem:item itemSpace:itemSpace];
+  }
 
-    [item setOrigin:offset];
-    [item setSize:itemSize];
-
-    if (_direction == SLELayoutDirectionColumn) {
-      offset.y += itemSize.height;
-    } else {
-      offset.x += itemSize.width;
-    }
+  // set origin
+  CGPoint itemOrigin = CGPointZero;
+  for (SLELayoutItem *item in _items) {
+    itemOrigin = [self updateOriginForItem:item lastItemOrigin:itemOrigin];
   }
 }
 
@@ -90,8 +139,7 @@
 
 - (CGRect)frameAtIndex:(NSInteger)index;
 {
-  SLELayoutItem *item = [_items objectAtIndex:index];
-  return item.frame;
+  return [[_items objectAtIndex:index] frame];
 }
 
 @end

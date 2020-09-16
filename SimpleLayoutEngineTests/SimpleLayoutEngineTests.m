@@ -36,7 +36,8 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 - (void)testFullScreenLayout
 {
   SLELayout *layout = [SLELayout layoutWithParentBounds:_rootFrame
-                                              direction:SLELayoutDirectionColumn];
+                                              direction:SLELayoutDirectionColumn
+                                              alignment:SLELayoutAlignmentLeading];
   SLELayoutItem *mainItem = [SLELayoutItem flexItem];
   [layout addItem:mainItem];
 
@@ -50,7 +51,8 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 - (void)testBottomFixLayout
 {
   SLELayout *layout = [SLELayout layoutWithParentBounds:_rootFrame
-                                              direction:SLELayoutDirectionColumn];
+                                              direction:SLELayoutDirectionColumn
+                                              alignment:SLELayoutAlignmentLeading];
   [layout addItem:[SLELayoutItem flexItem]];
   [layout addItem:[SLELayoutItem itemWithHeight:200.f]];
 
@@ -68,7 +70,8 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 {
   CGFloat contentHeight = 200.f;
   SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
-                                                  direction:SLELayoutDirectionColumn];
+                                                  direction:SLELayoutDirectionColumn
+                                                  alignment:SLELayoutAlignmentLeading];
   [mainLayout addItem:[SLELayoutItem flexItem]];
   [mainLayout addItem:[SLELayoutItem itemWithHeight:44]];
   [mainLayout addItem:[SLELayoutItem itemWithHeight:contentHeight]];
@@ -78,7 +81,8 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
   CGRect contentFrame = [mainLayout frameAtIndex:2];
 
   SLELayout *contentLayout = [SLELayout layoutWithParentBounds:contentFrame
-                                                     direction:SLELayoutDirectionRow];
+                                                     direction:SLELayoutDirectionRow
+                                                     alignment:SLELayoutAlignmentLeading];
   [contentLayout addItem:[SLELayoutItem flexItem]];
   [contentLayout addItem:[SLELayoutItem itemWithWidth:contentHeight]];
   [contentLayout addItem:[SLELayoutItem flexItem]];
@@ -95,6 +99,138 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
   [contentView addSubview:SLECreateView(content1Frame, [UIColor cyanColor])];
   [contentView addSubview:SLECreateView(content2Frame, [UIColor magentaColor])];
+
+  FBSnapshotVerifyView(_rootView, nil);
+  FBSnapshotVerifyLayer(_rootView.layer, nil);
+}
+
+- (void)testColumnStartAlignment
+{
+  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
+                                                  direction:SLELayoutDirectionColumn
+                                                  alignment:SLELayoutAlignmentLeading];
+  SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+  [mainLayout addItem:startItem];
+  [mainLayout addItem:centerItem];
+  [mainLayout addItem:endItem];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+
+  [_rootView addSubview:SLECreateView([startItem frame], [UIColor lightGrayColor])];
+  [_rootView addSubview:SLECreateView([centerItem frame], [UIColor grayColor])];
+  [_rootView addSubview:SLECreateView([endItem frame], [UIColor darkGrayColor])];
+
+  FBSnapshotVerifyView(_rootView, nil);
+  FBSnapshotVerifyLayer(_rootView.layer, nil);
+}
+
+- (void)testColumnCenterAlignment
+{
+  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
+                                                  direction:SLELayoutDirectionColumn
+                                                  alignment:SLELayoutAlignmentCenter];
+  SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+  [mainLayout addItem:startItem];
+  [mainLayout addItem:centerItem];
+  [mainLayout addItem:endItem];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+
+  [_rootView addSubview:SLECreateView([startItem frame], [UIColor lightGrayColor])];
+  [_rootView addSubview:SLECreateView([centerItem frame], [UIColor grayColor])];
+  [_rootView addSubview:SLECreateView([endItem frame], [UIColor darkGrayColor])];
+
+  FBSnapshotVerifyView(_rootView, nil);
+  FBSnapshotVerifyLayer(_rootView.layer, nil);
+}
+
+- (void)testColumnEndAlignment
+{
+  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
+                                                  direction:SLELayoutDirectionColumn
+                                                  alignment:SLELayoutAlignmentTrailing];
+  SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+  [mainLayout addItem:startItem];
+  [mainLayout addItem:centerItem];
+  [mainLayout addItem:endItem];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+
+  [_rootView addSubview:SLECreateView([startItem frame], [UIColor lightGrayColor])];
+  [_rootView addSubview:SLECreateView([centerItem frame], [UIColor grayColor])];
+  [_rootView addSubview:SLECreateView([endItem frame], [UIColor darkGrayColor])];
+
+  FBSnapshotVerifyView(_rootView, nil);
+  FBSnapshotVerifyLayer(_rootView.layer, nil);
+}
+
+- (void)testRowStartAlignment
+{
+  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
+                                                  direction:SLELayoutDirectionRow
+                                                  alignment:SLELayoutAlignmentLeading];
+  SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+  [mainLayout addItem:startItem];
+  [mainLayout addItem:centerItem];
+  [mainLayout addItem:endItem];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+
+  [_rootView addSubview:SLECreateView([startItem frame], [UIColor lightGrayColor])];
+  [_rootView addSubview:SLECreateView([centerItem frame], [UIColor grayColor])];
+  [_rootView addSubview:SLECreateView([endItem frame], [UIColor darkGrayColor])];
+
+  FBSnapshotVerifyView(_rootView, nil);
+  FBSnapshotVerifyLayer(_rootView.layer, nil);
+}
+
+- (void)testRowCenterAlignment
+{
+  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
+                                                  direction:SLELayoutDirectionRow
+                                                  alignment:SLELayoutAlignmentCenter];
+  SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+  [mainLayout addItem:startItem];
+  [mainLayout addItem:centerItem];
+  [mainLayout addItem:endItem];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+
+  [_rootView addSubview:SLECreateView([startItem frame], [UIColor lightGrayColor])];
+  [_rootView addSubview:SLECreateView([centerItem frame], [UIColor grayColor])];
+  [_rootView addSubview:SLECreateView([endItem frame], [UIColor darkGrayColor])];
+
+  FBSnapshotVerifyView(_rootView, nil);
+  FBSnapshotVerifyLayer(_rootView.layer, nil);
+}
+
+- (void)testRowEndAlignment
+{
+  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
+                                                  direction:SLELayoutDirectionRow
+                                                  alignment:SLELayoutAlignmentTrailing];
+  SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+  [mainLayout addItem:startItem];
+  [mainLayout addItem:centerItem];
+  [mainLayout addItem:endItem];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
+
+  [_rootView addSubview:SLECreateView([startItem frame], [UIColor lightGrayColor])];
+  [_rootView addSubview:SLECreateView([centerItem frame], [UIColor grayColor])];
+  [_rootView addSubview:SLECreateView([endItem frame], [UIColor darkGrayColor])];
 
   FBSnapshotVerifyView(_rootView, nil);
   FBSnapshotVerifyLayer(_rootView.layer, nil);
