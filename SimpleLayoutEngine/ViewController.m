@@ -41,6 +41,7 @@
   [mainLayout addItem:[SLELayoutItem itemWithHeight:insets.top]];
   [mainLayout addItem:[SLELayoutItem flexItem]];
   [mainLayout addItem:previewLayout];
+  [mainLayout addItem:[SLELayoutItem flexItem]];
   [mainLayout addItem:toolbarLayout];
   [mainLayout addItem:imageContentLayout];
   [mainLayout addItem:[SLELayoutItem itemWithHeight:insets.bottom]];

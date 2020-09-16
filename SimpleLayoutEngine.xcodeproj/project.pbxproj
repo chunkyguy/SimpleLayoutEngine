@@ -55,6 +55,7 @@
 		794A494D2510D376009D3F25 /* SLELayoutItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLELayoutItem.h; sourceTree = "<group>"; };
 		794A494E2510D376009D3F25 /* SLELayoutItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLELayoutItem.m; sourceTree = "<group>"; };
 		794A49502510D38E009D3F25 /* SLELayoutItem+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SLELayoutItem+Internal.h"; sourceTree = "<group>"; };
+		794A496125120D91009D3F25 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A004CB32385BF09DF18B00C0 /* Pods-SimpleLayoutEngine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleLayoutEngine.release.xcconfig"; path = "Target Support Files/Pods-SimpleLayoutEngine/Pods-SimpleLayoutEngine.release.xcconfig"; sourceTree = "<group>"; };
 		A70465512D1C0A1244B2E1C3 /* Pods-SimpleLayoutEngineTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleLayoutEngineTests.debug.xcconfig"; path = "Target Support Files/Pods-SimpleLayoutEngineTests/Pods-SimpleLayoutEngineTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F4CD3C5A7F04010DCB9C402B /* Pods-SimpleLayoutEngineTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleLayoutEngineTests.release.xcconfig"; path = "Target Support Files/Pods-SimpleLayoutEngineTests/Pods-SimpleLayoutEngineTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +95,7 @@
 		794A49142510CF53009D3F25 = {
 			isa = PBXGroup;
 			children = (
+				794A496125120D91009D3F25 /* README.md */,
 				794A491F2510CF53009D3F25 /* SimpleLayoutEngine */,
 				794A493B2510CF55009D3F25 /* SimpleLayoutEngineTests */,
 				794A491E2510CF53009D3F25 /* Products */,
