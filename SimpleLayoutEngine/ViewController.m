@@ -28,8 +28,16 @@
   [self setUp];
 }
 
+- (UIColor *)randomColor
+{
+  CGFloat hue = ((CGFloat)arc4random() / UINT32_MAX);
+  return [UIColor colorWithHue:hue saturation:.7f brightness:.8f alpha:1.f];
+}
+
 - (void)setUp
 {
+  self.view.backgroundColor = [UIColor whiteColor];
+
   UIEdgeInsets insets = self.view.safeAreaInsets;
   SLELayout *mainLayout = [SLELayout layoutWithParentBounds:self.view.bounds
                                                   direction:SLELayoutDirectionColumn

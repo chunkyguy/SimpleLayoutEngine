@@ -17,8 +17,8 @@
 		794A49302510CF55009D3F25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 794A492E2510CF55009D3F25 /* LaunchScreen.storyboard */; };
 		794A49332510CF55009D3F25 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 794A49322510CF55009D3F25 /* main.m */; };
 		794A493D2510CF55009D3F25 /* SimpleLayoutEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 794A493C2510CF55009D3F25 /* SimpleLayoutEngineTests.m */; };
-		794A494C2510D366009D3F25 /* SLELayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 794A494B2510D366009D3F25 /* SLELayout.m */; };
-		794A494F2510D376009D3F25 /* SLELayoutItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 794A494E2510D376009D3F25 /* SLELayoutItem.m */; };
+		794A49682512344A009D3F25 /* SLELayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 794A49642512344A009D3F25 /* SLELayout.m */; };
+		794A49692512344A009D3F25 /* SLELayoutItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 794A49652512344A009D3F25 /* SLELayoutItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,12 +50,12 @@
 		794A49382510CF55009D3F25 /* SimpleLayoutEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleLayoutEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		794A493C2510CF55009D3F25 /* SimpleLayoutEngineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleLayoutEngineTests.m; sourceTree = "<group>"; };
 		794A493E2510CF55009D3F25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		794A494A2510D366009D3F25 /* SLELayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLELayout.h; sourceTree = "<group>"; };
-		794A494B2510D366009D3F25 /* SLELayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLELayout.m; sourceTree = "<group>"; };
-		794A494D2510D376009D3F25 /* SLELayoutItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLELayoutItem.h; sourceTree = "<group>"; };
-		794A494E2510D376009D3F25 /* SLELayoutItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLELayoutItem.m; sourceTree = "<group>"; };
-		794A49502510D38E009D3F25 /* SLELayoutItem+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SLELayoutItem+Internal.h"; sourceTree = "<group>"; };
 		794A496125120D91009D3F25 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		794A49632512344A009D3F25 /* SLELayoutItem+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SLELayoutItem+Internal.h"; sourceTree = "<group>"; };
+		794A49642512344A009D3F25 /* SLELayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLELayout.m; sourceTree = "<group>"; };
+		794A49652512344A009D3F25 /* SLELayoutItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLELayoutItem.m; sourceTree = "<group>"; };
+		794A49662512344A009D3F25 /* SLELayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLELayout.h; sourceTree = "<group>"; };
+		794A49672512344A009D3F25 /* SLELayoutItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLELayoutItem.h; sourceTree = "<group>"; };
 		A004CB32385BF09DF18B00C0 /* Pods-SimpleLayoutEngine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleLayoutEngine.release.xcconfig"; path = "Target Support Files/Pods-SimpleLayoutEngine/Pods-SimpleLayoutEngine.release.xcconfig"; sourceTree = "<group>"; };
 		A70465512D1C0A1244B2E1C3 /* Pods-SimpleLayoutEngineTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleLayoutEngineTests.debug.xcconfig"; path = "Target Support Files/Pods-SimpleLayoutEngineTests/Pods-SimpleLayoutEngineTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F4CD3C5A7F04010DCB9C402B /* Pods-SimpleLayoutEngineTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleLayoutEngineTests.release.xcconfig"; path = "Target Support Files/Pods-SimpleLayoutEngineTests/Pods-SimpleLayoutEngineTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 		794A491F2510CF53009D3F25 /* SimpleLayoutEngine */ = {
 			isa = PBXGroup;
 			children = (
-				794A49492510D324009D3F25 /* LayoutEngine */,
+				794A49622512344A009D3F25 /* SimpleLayoutEngine */,
 				794A49202510CF53009D3F25 /* AppDelegate.h */,
 				794A49212510CF53009D3F25 /* AppDelegate.m */,
 				794A49232510CF53009D3F25 /* SceneDelegate.h */,
@@ -141,16 +141,16 @@
 			path = SimpleLayoutEngineTests;
 			sourceTree = "<group>";
 		};
-		794A49492510D324009D3F25 /* LayoutEngine */ = {
+		794A49622512344A009D3F25 /* SimpleLayoutEngine */ = {
 			isa = PBXGroup;
 			children = (
-				794A494A2510D366009D3F25 /* SLELayout.h */,
-				794A494B2510D366009D3F25 /* SLELayout.m */,
-				794A494D2510D376009D3F25 /* SLELayoutItem.h */,
-				794A494E2510D376009D3F25 /* SLELayoutItem.m */,
-				794A49502510D38E009D3F25 /* SLELayoutItem+Internal.h */,
+				794A49632512344A009D3F25 /* SLELayoutItem+Internal.h */,
+				794A49642512344A009D3F25 /* SLELayout.m */,
+				794A49652512344A009D3F25 /* SLELayoutItem.m */,
+				794A49662512344A009D3F25 /* SLELayout.h */,
+				794A49672512344A009D3F25 /* SLELayoutItem.h */,
 			);
-			name = LayoutEngine;
+			path = SimpleLayoutEngine;
 			sourceTree = "<group>";
 		};
 		7E26299E8417DCD109A155F5 /* Frameworks */ = {
@@ -350,10 +350,10 @@
 			files = (
 				794A49282510CF53009D3F25 /* ViewController.m in Sources */,
 				794A49222510CF53009D3F25 /* AppDelegate.m in Sources */,
-				794A494C2510D366009D3F25 /* SLELayout.m in Sources */,
+				794A49682512344A009D3F25 /* SLELayout.m in Sources */,
 				794A49332510CF55009D3F25 /* main.m in Sources */,
 				794A49252510CF53009D3F25 /* SceneDelegate.m in Sources */,
-				794A494F2510D376009D3F25 /* SLELayoutItem.m in Sources */,
+				794A49692512344A009D3F25 /* SLELayoutItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
