@@ -7,9 +7,10 @@
 #import "SLELayoutItem+Internal.h"
 
 #define kSLEAssignIfUndefined(lhs, rhs) lhs = (lhs == kSLELayoutValueUndefined) ? rhs : lhs
+#define kSLEDivide(x, y) ((y == 0) ? 0 : (x) / y)
 
 @interface SLELayout () {
-  CGSize _parentSize;
+  CGRect _parentFrame;
   NSMutableArray *_items;
   SLELayoutDirection _direction;
   SLELayoutAlignment _alignment;
@@ -17,20 +18,20 @@
 @end
 
 @implementation SLELayout
-+ (instancetype)layoutWithParentBounds:(CGRect)bounds
++ (instancetype)layoutWithParentFrame:(CGRect)frame
                              direction:(SLELayoutDirection)direction
                              alignment:(SLELayoutAlignment)alignment;
 {
-  return [[[self class] alloc] initWithParentBounds:bounds direction:direction alignment:alignment];
+  return [[[[self class] alloc] initWithParentFrame:frame direction:direction alignment:alignment]autorelease];
 }
 
-- (instancetype)initWithParentBounds:(CGRect)bounds
+- (instancetype)initWithParentFrame:(CGRect)frame
                            direction:(SLELayoutDirection)direction
                            alignment:(SLELayoutAlignment)alignment
 {
   self = [super init];
   if (self) {
-    _parentSize = bounds.size;
+    _parentFrame = frame;
     _direction = direction;
     _alignment = alignment;
     _items = [[NSMutableArray alloc] init];
@@ -46,15 +47,15 @@
 
 - (void)updateSizeForItem:(SLELayoutItem *)item itemSpace:(CGFloat)itemSpace
 {
-  CGSize itemSize = item.originalFrame.size;
+  CGSize itemSize = item.originalSize;
   switch (_direction) {
   case SLELayoutDirectionColumn:
-    kSLEAssignIfUndefined(itemSize.width, _parentSize.width);
+    kSLEAssignIfUndefined(itemSize.width, CGRectGetWidth(_parentFrame));
     kSLEAssignIfUndefined(itemSize.height, itemSpace);
     break;
   case SLELayoutDirectionRow:
     kSLEAssignIfUndefined(itemSize.width, itemSpace);
-    kSLEAssignIfUndefined(itemSize.height, _parentSize.height);
+    kSLEAssignIfUndefined(itemSize.height, CGRectGetHeight(_parentFrame));
     break;
   }
   [item setSize:itemSize];
@@ -62,40 +63,30 @@
 
 - (CGPoint)updateOriginForItem:(SLELayoutItem *)item lastItemOrigin:(CGPoint)itemOrigin
 {
-  CGSize itemSize = [item frame].size;
+  CGFloat offsetFactor = 1.f;
   switch (_alignment) {
-  case SLELayoutAlignmentLeading:
-    break;
-  case SLELayoutAlignmentCenter:
-    switch (_direction) {
+    case SLELayoutAlignmentLeading: offsetFactor = 0.f; break;
+    case SLELayoutAlignmentCenter: offsetFactor = 2.f; break;
+    case SLELayoutAlignmentTrailing: offsetFactor = 1.f; break;
+  }
+
+  switch (_direction) {
     case SLELayoutDirectionColumn:
-      itemOrigin.x = (_parentSize.width - itemSize.width) / 2.f;
+      itemOrigin.x = _parentFrame.origin.x + kSLEDivide(CGRectGetWidth(_parentFrame) - CGRectGetWidth([item frame]), offsetFactor);
       break;
     case SLELayoutDirectionRow:
-      itemOrigin.y = (_parentSize.height - itemSize.height) / 2.f;
+      itemOrigin.y = _parentFrame.origin.y + kSLEDivide(CGRectGetHeight(_parentFrame) - CGRectGetHeight([item frame]), offsetFactor);
       break;
-    }
-    break;
-  case SLELayoutAlignmentTrailing:
-    switch (_direction) {
-    case SLELayoutDirectionColumn:
-      itemOrigin.x = (_parentSize.width - itemSize.width);
-      break;
-    case SLELayoutDirectionRow:
-      itemOrigin.y = (_parentSize.height - itemSize.height);
-      break;
-    }
-    break;
   }
 
   [item setOrigin:itemOrigin];
 
   switch (_direction) {
   case SLELayoutDirectionColumn:
-    itemOrigin.y += itemSize.height;
+    itemOrigin.y += CGRectGetHeight([item frame]);
     break;
   case SLELayoutDirectionRow:
-    itemOrigin.x += itemSize.width;
+    itemOrigin.x += CGRectGetWidth([item frame]);
     break;
   }
 
@@ -108,8 +99,7 @@
   CGFloat usedSpace = 0;
   NSInteger flexItems = 0;
   for (SLELayoutItem *item in _items) {
-    CGRect itemFrame = item.originalFrame;
-    CGFloat itemSpace = (_direction == SLELayoutDirectionColumn) ? itemFrame.size.height : itemFrame.size.width;
+    CGFloat itemSpace = (_direction == SLELayoutDirectionColumn) ? item.originalSize.height : item.originalSize.width;
     if (itemSpace == kSLELayoutValueUndefined) {
       flexItems += 1;
     } else {
@@ -118,9 +108,10 @@
   }
 
   // update item frame
-  CGFloat maxFlexSpace = _direction == SLELayoutDirectionColumn ? _parentSize.height : _parentSize.width;
+  CGFloat maxFlexSpace = _direction == SLELayoutDirectionColumn ? CGRectGetHeight(_parentFrame) : CGRectGetWidth(_parentFrame);
   CGFloat itemSpace = (maxFlexSpace - usedSpace) / (CGFloat)flexItems;
-  CGPoint itemOrigin = CGPointZero;
+  NSAssert(itemSpace >= 0, @"Not sufficient space");
+  CGPoint itemOrigin = _parentFrame.origin;
   for (SLELayoutItem *item in _items) {
     [self updateSizeForItem:item itemSpace:itemSpace];
     itemOrigin = [self updateOriginForItem:item lastItemOrigin:itemOrigin];

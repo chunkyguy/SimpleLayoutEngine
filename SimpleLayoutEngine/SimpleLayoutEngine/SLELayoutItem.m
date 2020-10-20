@@ -9,7 +9,7 @@
 const CGFloat kSLELayoutValueUndefined = -1.f;
 
 @interface SLELayoutItem () {
-  CGRect _originalFrame;
+  CGSize _originalSize;
   CGRect _finalFrame;
 }
 @end
@@ -40,10 +40,7 @@ const CGFloat kSLELayoutValueUndefined = -1.f;
 {
   self = [super init];
   if (self) {
-    _originalFrame = (CGRect) {
-      .origin = { .x = kSLELayoutValueUndefined, .y = kSLELayoutValueUndefined },
-      .size = { .width = size.width, size.height }
-    };
+    _originalSize = size;
     _finalFrame = CGRectZero;
   }
   return self;
@@ -59,9 +56,9 @@ const CGFloat kSLELayoutValueUndefined = -1.f;
   _finalFrame.size = size;
 }
 
-- (CGRect)originalFrame
+- (CGSize)originalSize
 {
-  return _originalFrame;
+  return _originalSize;
 }
 
 - (CGRect)frame

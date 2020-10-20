@@ -39,9 +39,9 @@
   self.view.backgroundColor = [UIColor whiteColor];
 
   UIEdgeInsets insets = self.view.safeAreaInsets;
-  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:self.view.bounds
-                                                  direction:SLELayoutDirectionColumn
-                                                  alignment:SLELayoutAlignmentLeading];
+  SLELayout *mainLayout = [SLELayout layoutWithParentFrame:self.view.bounds
+                                                 direction:SLELayoutDirectionColumn
+                                                 alignment:SLELayoutAlignmentLeading];
 
   SLELayoutItem *previewLayout = [SLELayoutItem itemWithHeight:self.view.bounds.size.width];
   SLELayoutItem *toolbarLayout = [SLELayoutItem itemWithHeight:44];
@@ -56,9 +56,9 @@
   [mainLayout addItem:[SLELayoutItem itemWithHeight:insets.bottom]];
 
   CGRect imageContentFrame = [imageContentLayout frame];
-  SLELayout *imageLayout = [SLELayout layoutWithParentBounds:imageContentFrame
-                                                   direction:SLELayoutDirectionRow
-                                                   alignment:SLELayoutAlignmentLeading];
+  SLELayout *imageLayout = [SLELayout layoutWithParentFrame:imageContentFrame
+                                                  direction:SLELayoutDirectionRow
+                                                  alignment:SLELayoutAlignmentLeading];
   CGFloat contentImgWidth = (imageContentFrame.size.width / 2.0) - 2.f;
   SLELayoutItem *startImageVwLayout = [SLELayoutItem itemWithWidth:contentImgWidth];
   SLELayoutItem *endImageVwLayout = [SLELayoutItem itemWithWidth:contentImgWidth];
@@ -70,7 +70,6 @@
 
   UIView *previewVw = [[UIView alloc] initWithFrame:[previewLayout frame]];
   UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:[toolbarLayout frame]];
-  UIView *imageContentView = [[UIView alloc] initWithFrame:imageContentFrame];
   UIImageView *startImageVw = [[UIImageView alloc] initWithFrame:[startImageVwLayout frame]];
   UIButton *startImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
   startImageBtn.frame = startImageVw.frame;
@@ -96,21 +95,19 @@
 
   [self.view addSubview:previewVw];
   [self.view addSubview:toolbar];
-  [self.view addSubview:imageContentView];
   [toolbar setItems:[NSArray arrayWithObjects:
                                spaceButton, rewindButton,
                              spaceButton, playButton,
                              spaceButton, pauseButton,
                              spaceButton, forwardButton,
                              spaceButton, nil]];
-  [imageContentView addSubview:startImageVw];
-  [imageContentView addSubview:endImageVw];
-  [imageContentView addSubview:startImageBtn];
-  [imageContentView addSubview:endImageBtn];
+  [self.view addSubview:startImageVw];
+  [self.view addSubview:endImageVw];
+  [self.view addSubview:startImageBtn];
+  [self.view addSubview:endImageBtn];
 
   [previewVw release];
   [toolbar release];
-  [imageContentView release];
   [startImageVw release];
   [endImageVw release];
   [playButton release];

@@ -7,6 +7,8 @@
 #import <FBSnapshotTestCase/FBSnapshotTestCase.h>
 #import <XCTest/XCTest.h>
 
+// All the tests are recorded using iPhone 11 Pro Max
+
 UIView *SLECreateView(CGRect frame, UIColor *color)
 {
   UIView *view = [[UIView alloc] initWithFrame:frame];
@@ -35,9 +37,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
 - (void)testFullScreenLayout
 {
-  SLELayout *layout = [SLELayout layoutWithParentBounds:_rootFrame
-                                              direction:SLELayoutDirectionColumn
-                                              alignment:SLELayoutAlignmentLeading];
+  SLELayout *layout = [SLELayout layoutWithParentFrame:_rootFrame
+                                             direction:SLELayoutDirectionColumn
+                                             alignment:SLELayoutAlignmentLeading];
   SLELayoutItem *mainItem = [SLELayoutItem flexItem];
   [layout addItem:mainItem];
 
@@ -50,9 +52,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
 - (void)testBottomFixLayout
 {
-  SLELayout *layout = [SLELayout layoutWithParentBounds:_rootFrame
-                                              direction:SLELayoutDirectionColumn
-                                              alignment:SLELayoutAlignmentLeading];
+  SLELayout *layout = [SLELayout layoutWithParentFrame:_rootFrame
+                                             direction:SLELayoutDirectionColumn
+                                             alignment:SLELayoutAlignmentLeading];
   [layout addItem:[SLELayoutItem flexItem]];
   [layout addItem:[SLELayoutItem itemWithHeight:200.f]];
 
@@ -69,9 +71,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 - (void)testInnerViewLayout
 {
   CGFloat contentHeight = 200.f;
-  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
-                                                  direction:SLELayoutDirectionColumn
-                                                  alignment:SLELayoutAlignmentLeading];
+  SLELayout *mainLayout = [SLELayout layoutWithParentFrame:_rootFrame
+                                                 direction:SLELayoutDirectionColumn
+                                                 alignment:SLELayoutAlignmentLeading];
   [mainLayout addItem:[SLELayoutItem flexItem]];
   [mainLayout addItem:[SLELayoutItem itemWithHeight:44]];
   [mainLayout addItem:[SLELayoutItem itemWithHeight:contentHeight]];
@@ -80,9 +82,10 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
   CGRect toolbarFrame = [mainLayout frameAtIndex:1];
   CGRect contentFrame = [mainLayout frameAtIndex:2];
 
-  SLELayout *contentLayout = [SLELayout layoutWithParentBounds:contentFrame
-                                                     direction:SLELayoutDirectionRow
-                                                     alignment:SLELayoutAlignmentLeading];
+  // since the child views are added to subview, we use local bounds of contentFrame
+  SLELayout *contentLayout = [SLELayout layoutWithParentFrame:(CGRect) {.origin = CGPointZero, .size = contentFrame.size }
+                                                    direction:SLELayoutDirectionRow
+                                                    alignment:SLELayoutAlignmentLeading];
   [contentLayout addItem:[SLELayoutItem flexItem]];
   [contentLayout addItem:[SLELayoutItem itemWithWidth:contentHeight]];
   [contentLayout addItem:[SLELayoutItem flexItem]];
@@ -106,9 +109,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
 - (void)testColumnStartAlignment
 {
-  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
-                                                  direction:SLELayoutDirectionColumn
-                                                  alignment:SLELayoutAlignmentLeading];
+  SLELayout *mainLayout = [SLELayout layoutWithParentFrame:_rootFrame
+                                                 direction:SLELayoutDirectionColumn
+                                                 alignment:SLELayoutAlignmentLeading];
   SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
@@ -128,9 +131,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
 - (void)testColumnCenterAlignment
 {
-  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
-                                                  direction:SLELayoutDirectionColumn
-                                                  alignment:SLELayoutAlignmentCenter];
+  SLELayout *mainLayout = [SLELayout layoutWithParentFrame:_rootFrame
+                                                 direction:SLELayoutDirectionColumn
+                                                 alignment:SLELayoutAlignmentCenter];
   SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
@@ -150,9 +153,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
 - (void)testColumnEndAlignment
 {
-  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
-                                                  direction:SLELayoutDirectionColumn
-                                                  alignment:SLELayoutAlignmentTrailing];
+  SLELayout *mainLayout = [SLELayout layoutWithParentFrame:_rootFrame
+                                                 direction:SLELayoutDirectionColumn
+                                                 alignment:SLELayoutAlignmentTrailing];
   SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
@@ -172,9 +175,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
 - (void)testRowStartAlignment
 {
-  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
-                                                  direction:SLELayoutDirectionRow
-                                                  alignment:SLELayoutAlignmentLeading];
+  SLELayout *mainLayout = [SLELayout layoutWithParentFrame:_rootFrame
+                                                 direction:SLELayoutDirectionRow
+                                                 alignment:SLELayoutAlignmentLeading];
   SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
@@ -194,9 +197,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
 - (void)testRowCenterAlignment
 {
-  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
-                                                  direction:SLELayoutDirectionRow
-                                                  alignment:SLELayoutAlignmentCenter];
+  SLELayout *mainLayout = [SLELayout layoutWithParentFrame:_rootFrame
+                                                 direction:SLELayoutDirectionRow
+                                                 alignment:SLELayoutAlignmentCenter];
   SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
@@ -216,9 +219,9 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
 
 - (void)testRowEndAlignment
 {
-  SLELayout *mainLayout = [SLELayout layoutWithParentBounds:_rootFrame
-                                                  direction:SLELayoutDirectionRow
-                                                  alignment:SLELayoutAlignmentTrailing];
+  SLELayout *mainLayout = [SLELayout layoutWithParentFrame:_rootFrame
+                                                 direction:SLELayoutDirectionRow
+                                                 alignment:SLELayoutAlignmentTrailing];
   SLELayoutItem *startItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *centerItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];
   SLELayoutItem *endItem = [SLELayoutItem itemWithSize:CGSizeMake(100.f, 100.f)];

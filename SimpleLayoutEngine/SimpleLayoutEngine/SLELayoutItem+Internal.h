@@ -5,8 +5,6 @@
 
 #import "SLELayoutItem.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 extern const CGFloat kSLELayoutValueUndefined;
 
 @interface SLELayoutItem ()
@@ -14,8 +12,8 @@ extern const CGFloat kSLELayoutValueUndefined;
 - (void)setOrigin:(CGPoint)origin;
 - (void)setSize:(CGSize)size;
 
-@property (nonatomic, readonly) CGRect originalFrame;
+@property (nonatomic, readonly) CGSize originalSize;
 
 @end
 
-NS_ASSUME_NONNULL_END
+
