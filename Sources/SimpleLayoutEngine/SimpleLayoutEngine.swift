@@ -34,6 +34,13 @@ public class Item {
     return Item(width: nil, height: value)
   }
 
+  public static func direction(_ direction: Direction, _ value: CGFloat) -> Item {
+    switch direction {
+    case .column: return .height(value)
+    case .row: return .width(value)
+    }
+  }
+
   public static func size(_ value: CGSize) -> Item {
     return Item(width: value.width, height: value.height)
   }
@@ -176,7 +183,7 @@ private extension Layout {
       }
     }
 
-    let itemSpace = (maxFlexSpace - usedSpace)/CGFloat(flexItems)
+    let itemSpace = (maxFlexSpace - usedSpace)/CGFloat(max(flexItems, 1))
     guard itemSpace >= 0 else {
       throw LayoutError.outOfSpace
     }

@@ -5,12 +5,6 @@
 
 import UIKit
 
-extension UIColor {
-  static var random: UIColor {
-    return UIColor(hue: .random(in: 0...1), saturation: 0.8, brightness: 0.8, alpha: 1)
-  }
-}
-
 extension CGSize {
   init(value: CGFloat) {
     self.init(width: value, height: value)
@@ -19,12 +13,29 @@ extension CGSize {
   var minEdge: CGFloat {
     return min(width, height)
   }
+
+  var direction: Direction {
+    if width > height {
+      return .row
+    } else {
+      return .column
+    }
+  }
+}
+
+extension UIView  {
+  func addSquareImage() {
+    let imageView = UIImageView(image: UIImage(named: "square.png"))
+    imageView.frame = bounds
+    imageView.contentMode = .scaleAspectFill
+    addSubview(imageView)
+  }
 }
 
 class PreviewView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = .random
+    addSquareImage()
   }
 
   required init?(coder: NSCoder) { fatalError("not implemented") }
@@ -33,7 +44,7 @@ class PreviewView: UIView {
 class ThumbnailView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = .random
+    addSquareImage()
   }
 
   required init?(coder: NSCoder) { fatalError("not implemented") }
@@ -44,16 +55,27 @@ class FooterView: UIView {
     super.init(frame: frame)
     backgroundColor = .black
 
-    let layout = Layout(parentFrame: bounds, direction: .row, alignment: .trailing)
-    let thumbWidth = min(bounds.size.width/2.0 - 4.0, bounds.size.height)
-    try! layout.add(item: .flexible)
-    let leftThumbItem = try! layout.add(item: .size(CGSize(value: thumbWidth)))
-    try! layout.add(item: .flexible)
-    let rightThumbItem = try! layout.add(item: .size(CGSize(value: thumbWidth)))
-    try! layout.add(item: .flexible)
+    let direction = bounds.size.direction
+    let layout = Layout(parentFrame: bounds, direction: direction, alignment: .trailing)
+    do {
+      let thumbWidth: CGFloat
+      switch direction {
+      case .row:
+        thumbWidth = min(bounds.size.width/2.0 - 4.0, bounds.size.height)
+      case .column:
+        thumbWidth =  min(bounds.size.height/2.0 - 4.0, bounds.size.width)
+      }
+      try layout.add(item: .flexible)
+      let leftThumbItem = try layout.add(item: .size(CGSize(value: thumbWidth)))
+      try layout.add(item: .flexible)
+      let rightThumbItem = try layout.add(item: .size(CGSize(value: thumbWidth)))
+      try layout.add(item: .flexible)
 
-    addSubview(ThumbnailView(frame: leftThumbItem.frame!))
-    addSubview(ThumbnailView(frame: rightThumbItem.frame!))
+      addSubview(ThumbnailView(frame: leftThumbItem.frame!))
+      addSubview(ThumbnailView(frame: rightThumbItem.frame!))
+    } catch let error {
+      assertionFailure(error.localizedDescription)
+    }
   }
 
   required init?(coder: NSCoder) { fatalError("not implemented") }
@@ -62,38 +84,30 @@ class FooterView: UIView {
 class Toolbar: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
-    let toolbar = UIToolbar(frame: bounds)
-    addSubview(toolbar)
-    toolbar.items = [
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-      UIBarButtonItem(barButtonSystemItem: .rewind, target: nil, action: nil),
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-      UIBarButtonItem(barButtonSystemItem: .play, target: nil, action: nil),
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-      UIBarButtonItem(barButtonSystemItem: .pause, target: nil, action: nil),
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-      UIBarButtonItem(barButtonSystemItem: .fastForward, target: nil, action: nil),
-      UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-    ]
+    backgroundColor = UIColor(hue: 0.4, saturation: 0.8, brightness: 0.8, alpha: 1)
   }
 
   required init?(coder: NSCoder) { fatalError("not implemented") }
 }
 
 class ContentView: UIView {
-
   override init(frame: CGRect) {
     super.init(frame: frame)
     backgroundColor = .lightGray
 
-    let layout = Layout(parentFrame: bounds, direction: .column, alignment: .leading)
-    let previewItem = try! layout.add(item: .size(CGSize(value: bounds.size.minEdge))) // add square
-    let toolbarItem = try! layout.add(item: .height(44))
-    let footerItem = try! layout.add(item: .flexible)
+    let direction = bounds.size.direction
+    let layout = Layout(parentFrame: bounds, direction: direction, alignment: .leading)
+    do {
+      let previewItem = try layout.add(item: .size(CGSize(value: bounds.size.minEdge))) // add square
+      let toolbarItem = try layout.add(item: .direction(direction, 44))
+      let footerItem = try layout.add(item: .flexible)
 
-    addSubview(PreviewView(frame: previewItem.frame!))
-    addSubview(Toolbar(frame: toolbarItem.frame!))
-    addSubview(FooterView(frame: footerItem.frame!))
+      addSubview(PreviewView(frame: previewItem.frame!))
+      addSubview(Toolbar(frame: toolbarItem.frame!))
+      addSubview(FooterView(frame: footerItem.frame!))
+    } catch let error {
+      assertionFailure(error.localizedDescription)
+    }
   }
 
   required init?(coder: NSCoder) { fatalError("not implemented") }
@@ -113,13 +127,16 @@ class ViewController: UIViewController {
 
   func setup() {
     let layout = Layout(parentFrame: view.bounds, direction: .column, alignment: .leading)
-    try! layout.add(item: .height(view.safeAreaInsets.top))
-    let contentItem = try! layout.add(item: .flexible)
-    try! layout.add(item: .height(view.safeAreaInsets.bottom))
+    do {
+      try layout.add(item: .height(view.safeAreaInsets.top))
+      let contentItem = try layout.add(item: .flexible)
+      try layout.add(item: .height(view.safeAreaInsets.bottom))
 
-    let contentView = ContentView(frame: contentItem.frame!)
-    view.addSubview(contentView)
+      let contentView = ContentView(frame: contentItem.frame!)
+      view.addSubview(contentView)
+    } catch let error {
+      assertionFailure(error.localizedDescription)
+    }
     view.backgroundColor = .white
   }
 }
-

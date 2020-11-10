@@ -14,6 +14,7 @@
 		791FB234255AD1460001BCBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 791FB233255AD1460001BCBA /* Assets.xcassets */; };
 		791FB237255AD1460001BCBA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 791FB235255AD1460001BCBA /* LaunchScreen.storyboard */; };
 		791FB25B255AD51A0001BCBA /* SimpleLayoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791FB25A255AD51A0001BCBA /* SimpleLayoutEngine.swift */; };
+		791FB26A255B40A90001BCBA /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = 791FB269255B40A90001BCBA /* square.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		791FB236255AD1460001BCBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		791FB238255AD1460001BCBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		791FB25A255AD51A0001BCBA /* SimpleLayoutEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleLayoutEngine.swift; sourceTree = "<group>"; };
+		791FB266255B35CC0001BCBA /* SimpleLayoutEngineDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimpleLayoutEngineDemo.entitlements; sourceTree = "<group>"; };
+		791FB269255B40A90001BCBA /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,9 +62,11 @@
 		791FB229255AD1440001BCBA /* SimpleLayoutEngineDemo */ = {
 			isa = PBXGroup;
 			children = (
+				791FB266255B35CC0001BCBA /* SimpleLayoutEngineDemo.entitlements */,
 				791FB22A255AD1440001BCBA /* AppDelegate.swift */,
 				791FB22C255AD1440001BCBA /* SceneDelegate.swift */,
 				791FB22E255AD1440001BCBA /* ViewController.swift */,
+				791FB269255B40A90001BCBA /* square.png */,
 				791FB230255AD1440001BCBA /* Main.storyboard */,
 				791FB233255AD1460001BCBA /* Assets.xcassets */,
 				791FB235255AD1460001BCBA /* LaunchScreen.storyboard */,
@@ -139,6 +144,7 @@
 			files = (
 				791FB237255AD1460001BCBA /* LaunchScreen.storyboard in Resources */,
 				791FB234255AD1460001BCBA /* Assets.xcassets in Resources */,
+				791FB26A255B40A90001BCBA /* square.png in Resources */,
 				791FB232255AD1440001BCBA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,6 +306,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SimpleLayoutEngineDemo/SimpleLayoutEngineDemo.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SimpleLayoutEngineDemo/Info.plist;
@@ -311,6 +319,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.whackylabs.SimpleLayoutEngineDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -321,6 +330,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SimpleLayoutEngineDemo/SimpleLayoutEngineDemo.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SimpleLayoutEngineDemo/Info.plist;
@@ -332,6 +343,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.whackylabs.SimpleLayoutEngineDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
