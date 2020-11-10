@@ -50,7 +50,6 @@
 		794A49382510CF55009D3F25 /* SimpleLayoutEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleLayoutEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		794A493C2510CF55009D3F25 /* SimpleLayoutEngineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleLayoutEngineTests.m; sourceTree = "<group>"; };
 		794A493E2510CF55009D3F25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		794A496125120D91009D3F25 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		794A49632512344A009D3F25 /* SLELayoutItem+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SLELayoutItem+Internal.h"; sourceTree = "<group>"; };
 		794A49642512344A009D3F25 /* SLELayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLELayout.m; sourceTree = "<group>"; };
 		794A49652512344A009D3F25 /* SLELayoutItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLELayoutItem.m; sourceTree = "<group>"; };
@@ -95,7 +94,6 @@
 		794A49142510CF53009D3F25 = {
 			isa = PBXGroup;
 			children = (
-				794A496125120D91009D3F25 /* README.md */,
 				794A491F2510CF53009D3F25 /* SimpleLayoutEngine */,
 				794A493B2510CF55009D3F25 /* SimpleLayoutEngineTests */,
 				794A491E2510CF53009D3F25 /* Products */,
