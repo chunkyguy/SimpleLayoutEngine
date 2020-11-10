@@ -83,7 +83,7 @@ UIView *SLECreateView(CGRect frame, UIColor *color)
   CGRect contentFrame = [mainLayout frameAtIndex:2];
 
   // since the child views are added to subview, we use local bounds of contentFrame
-  SLELayout *contentLayout = [SLELayout layoutWithParentFrame:(CGRect) {.origin = CGPointZero, .size = contentFrame.size }
+  SLELayout *contentLayout = [SLELayout layoutWithParentFrame:(CGRect) { .origin = CGPointZero, .size = contentFrame.size }
                                                     direction:SLELayoutDirectionRow
                                                     alignment:SLELayoutAlignmentLeading];
   [contentLayout addItem:[SLELayoutItem flexItem]];
