@@ -137,9 +137,11 @@ public class Layout {
     return items.count
   }
 
-  public func add(item: Item) throws {
+  @discardableResult
+  public func add(item: Item) throws -> Item {
     items.append(item)
     try updateFrames()
+    return item
   }
 
   public func frame(at index: Int) throws -> CGRect {
