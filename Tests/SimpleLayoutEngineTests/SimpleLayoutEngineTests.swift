@@ -1,12 +1,7 @@
-//
-// Created by Sidharth Juyal on 10/11/2020.
-// Copyright © 2020 whackylabs. All rights reserved.
-// 
-
 import XCTest
 @testable import SimpleLayoutEngine
 
-class SimpleLayoutEngineTests: XCTestCase {
+final class SimpleLayoutEngineTests: XCTestCase {
 
   func testOneItem() {
     let layout = Layout(parentFrame: CGRect(origin: .zero, size: CGSize(width: 414, height: 896)), direction: .column, alignment: .leading)
@@ -69,4 +64,10 @@ class SimpleLayoutEngineTests: XCTestCase {
       XCTFail("\(error)")
     }
   }
+
+  static var allTests = [
+    ("testOneItem", testOneItem),
+    ("testTwoRowLayout", testTwoRowLayout),
+    ("testComplexLayout", testComplexLayout),
+  ]
 }

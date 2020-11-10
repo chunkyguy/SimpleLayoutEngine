@@ -1,9 +1,3 @@
-//
-// Created by Sidharth Juyal on 10/11/2020.
-// Copyright © 2020 whackylabs. All rights reserved.
-// 
-
-import Foundation
 import CoreGraphics
 
 public enum Direction {
