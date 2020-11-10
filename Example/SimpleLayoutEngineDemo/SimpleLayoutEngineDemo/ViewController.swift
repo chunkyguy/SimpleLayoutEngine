@@ -15,6 +15,10 @@ extension CGSize {
   init(value: CGFloat) {
     self.init(width: value, height: value)
   }
+
+  var minEdge: CGFloat {
+    return min(width, height)
+  }
 }
 
 class PreviewView: UIView {
@@ -38,10 +42,10 @@ class ThumbnailView: UIView {
 class FooterView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = .random
+    backgroundColor = .black
 
     let layout = Layout(parentFrame: bounds, direction: .row, alignment: .trailing)
-    let thumbWidth = (bounds.width / 2.0) - 4
+    let thumbWidth = min(bounds.size.width/2.0 - 4.0, bounds.size.height)
     try! layout.add(item: .flexible)
     let leftThumbItem = try! layout.add(item: .size(CGSize(value: thumbWidth)))
     try! layout.add(item: .flexible)
@@ -83,7 +87,7 @@ class ContentView: UIView {
     backgroundColor = .lightGray
 
     let layout = Layout(parentFrame: bounds, direction: .column, alignment: .leading)
-    let previewItem = try! layout.add(item: .size(CGSize(value: bounds.width))) // add square
+    let previewItem = try! layout.add(item: .size(CGSize(value: bounds.size.minEdge))) // add square
     let toolbarItem = try! layout.add(item: .height(44))
     let footerItem = try! layout.add(item: .flexible)
 
@@ -100,7 +104,7 @@ class ViewController: UIViewController {
   private var isSetup = false
 
   override func viewDidLayoutSubviews() {
-    // the view.safeAreaInsets is not at viewDidLoad
+    // the view.safeAreaInsets is not available at viewDidLoad
     if !isSetup {
       setup()
       isSetup = true
