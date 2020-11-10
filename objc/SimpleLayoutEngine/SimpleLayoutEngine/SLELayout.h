@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, SLELayoutAlignment) {
 
 - (void)addItem:(SLELayoutItem *)item;
 - (CGRect)frameAtIndex:(NSInteger)index;
+- (NSInteger)totalItems;
 @end
 
 

@@ -128,4 +128,9 @@
 {
   return [[_items objectAtIndex:index] frame];
 }
+
+- (NSInteger)totalItems
+{
+  return [_items count];
+}
 @end
