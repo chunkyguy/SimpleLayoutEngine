@@ -27,6 +27,46 @@ public enum LayoutError: Error {
   case outOfSpace
 }
 
+private extension CGPoint {
+  func appendingX(_ value: CGFloat) -> CGPoint {
+    return CGPoint(x: x + value, y: y)
+  }
+
+  func appendingY(_ value: CGFloat) -> CGPoint {
+    return CGPoint(x: x, y: y + value)
+  }
+}
+
+private class Rect {
+  internal private(set) var width: CGFloat?
+  internal private(set) var height: CGFloat?
+  private var x: CGFloat?
+  private var y: CGFloat?
+
+  func frame() throws -> CGRect {
+    guard let originX = x, let originY = y, let width = width, let height = height else {
+      throw LayoutError.itemIncomplete
+    }
+    return CGRect(x: originX, y: originY, width: width, height: height)
+  }
+
+  func set(origin: CGPoint) {
+    x = origin.x
+    y = origin.y
+
+    assert(x != nil)
+    assert(y != nil)
+  }
+
+  func set(size: CGSize) {
+    width = size.width
+    height = size.height
+
+    assert(width != nil)
+    assert(height != nil)
+  }
+}
+
 public class Item {
   public static var flexible: Item {
     return Item(width: nil, height: nil)
@@ -52,22 +92,16 @@ public class Item {
   }
 
   public func frame() throws -> CGRect {
-    guard let originX = originX, let originY = originY, let width = width, let height = height else {
-      throw LayoutError.itemIncomplete
-    }
-    return CGRect(x: originX, y: originY, width: width, height: height)
+    return try rect.frame()
   }
 
   internal let originalWidth: CGFloat?
   internal let originalHeight: CGFloat?
-  internal var width: CGFloat?
-  internal var height: CGFloat?
-  private var originX: CGFloat?
-  private var originY: CGFloat?
+  private let rect = Rect()
 
   private init(width: CGFloat?, height: CGFloat?) {
-    self.originalWidth = width
-    self.originalHeight = height
+    originalWidth = width
+    originalHeight = height
   }
 }
 
@@ -79,51 +113,25 @@ private extension Item {
     }
   }
 
-  func updateSize(itemSpace: CGFloat, in direction: Direction, parentSize: CGSize) {
-
-    defer {
-      assert(width != nil)
-      assert(height != nil)
-    }
-
+  func updateSize(value: CGFloat, in direction: Direction, parentSize: CGSize) {
     switch direction {
     case .row:
-      width = originalWidth ?? itemSpace
-      height = originalHeight ?? parentSize.height
+      rect.set(size: CGSize(width: originalWidth ?? value, height: originalHeight ?? parentSize.height))
 
     case .column:
-      width = originalWidth ?? parentSize.width
-      height = originalHeight ?? itemSpace
+      rect.set(size: CGSize(width: originalWidth ?? parentSize.width, height: originalHeight ?? value))
     }
   }
 
   func updateOrigin(itemOrigin: CGPoint, in direction: Direction, alignment: Alignment, parentFrame: CGRect) -> CGPoint {
-
-    defer {
-      assert(originX != nil)
-      assert(originY != nil)
-    }
-
     switch direction {
     case .row:
-      originX = itemOrigin.x
-      originY = parentFrame.origin.y + alignment.align(parent: parentFrame.height, item: height ?? 0)
-      return itemOrigin.appendingX(width ?? 0)
+      rect.set(origin: CGPoint(x: itemOrigin.x, y: parentFrame.origin.y + alignment.align(parent: parentFrame.height, item: rect.height ?? 0)))
+      return itemOrigin.appendingX(rect.width ?? 0)
     case .column:
-      originX = parentFrame.origin.x + alignment.align(parent: parentFrame.width, item: width ?? 0)
-      originY = itemOrigin.y
-      return itemOrigin.appendingY(height ?? 0)
+      rect.set(origin: CGPoint(x: parentFrame.origin.x + alignment.align(parent: parentFrame.width, item: rect.width ?? 0), y: itemOrigin.y))
+      return itemOrigin.appendingY(rect.height ?? 0)
     }
-  }
-}
-
-private extension CGPoint {
-  func appendingX(_ value: CGFloat) -> CGPoint {
-    return CGPoint(x: x + value, y: y)
-  }
-
-  func appendingY(_ value: CGFloat) -> CGPoint {
-    return CGPoint(x: x, y: y + value)
   }
 }
 
@@ -160,32 +168,30 @@ public class Layout {
 }
 
 private extension Layout {
-
-  var maxFlexSpace: CGFloat {
-    switch direction {
-    case .row: return parentFrame.width
-    case .column: return parentFrame.height
-    }
-  }
-
   func updateFrames() throws {
-    var usedSpace: CGFloat = 0
+    var totalFlexSpace: CGFloat = {
+      switch direction {
+      case .row: return parentFrame.width
+      case .column: return parentFrame.height
+      }
+    }()
+
     var flexItems = 0
     for item in items {
       switch item.value(in: direction) {
-      case .some(let space): usedSpace += space
+      case .some(let space): totalFlexSpace -= space
       case .none: flexItems += 1
       }
     }
 
-    let itemSpace = (maxFlexSpace - usedSpace)/CGFloat(max(flexItems, 1))
+    let itemSpace = totalFlexSpace/CGFloat(max(flexItems, 1))
     guard itemSpace >= 0 else {
       throw LayoutError.outOfSpace
     }
 
     var itemOrigin = parentFrame.origin
     for item in items {
-      item.updateSize(itemSpace: itemSpace, in: direction, parentSize: parentFrame.size)
+      item.updateSize(value: itemSpace, in: direction, parentSize: parentFrame.size)
       itemOrigin = item.updateOrigin(itemOrigin: itemOrigin, in: direction, alignment: alignment, parentFrame: parentFrame)
     }
   }

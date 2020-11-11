@@ -51,10 +51,11 @@ class BaseViewController: UIViewController {
     }
   }
 
-  func addViews(frame: CGRect) {}
-  func updateViews(frame: CGRect) {}
-
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     layout(frame: CGRect(origin: .zero, size: size), update: updateViews)
   }
+
+  // - Need to be subclassed -
+  func addViews(frame: CGRect) {}
+  func updateViews(frame: CGRect) {}
 }

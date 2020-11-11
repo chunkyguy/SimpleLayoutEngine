@@ -30,3 +30,4 @@ DerivedData/
 ## Bloom files
 _demo/
 FailureDiffs/
+.build

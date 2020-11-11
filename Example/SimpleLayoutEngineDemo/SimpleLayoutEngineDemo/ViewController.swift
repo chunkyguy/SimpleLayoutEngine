@@ -81,7 +81,7 @@ private class FooterView: UIView {
 private class Toolbar: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = UIColor(hue: 0.4, saturation: 0.8, brightness: 0.8, alpha: 1)
+    backgroundColor = UIColor(hue: 0.4)
   }
 
   required init?(coder: NSCoder) { fatalError("not implemented") }

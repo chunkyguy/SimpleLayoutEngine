@@ -27,3 +27,9 @@ extension UIView {
     return subview
   }
 }
+
+extension UIColor {
+  convenience init(hue: CGFloat) {
+    self.init(hue: hue, saturation: 0.8, brightness: 0.8, alpha: 1)
+  }
+}
