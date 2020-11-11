@@ -21,6 +21,12 @@ private extension Alignment {
   }
 }
 
+public enum LayoutError: Error {
+  case itemOutOfBounds
+  case itemIncomplete
+  case outOfSpace
+}
+
 public class Item {
   public static var flexible: Item {
     return Item(width: nil, height: nil)
@@ -34,7 +40,7 @@ public class Item {
     return Item(width: nil, height: value)
   }
 
-  public static func direction(_ direction: Direction, _ value: CGFloat) -> Item {
+  public static func dynamic(_ direction: Direction, _ value: CGFloat) -> Item {
     switch direction {
     case .column: return .height(value)
     case .row: return .width(value)
@@ -45,9 +51,9 @@ public class Item {
     return Item(width: value.width, height: value.height)
   }
 
-  public var frame: CGRect? {
+  public func frame() throws -> CGRect {
     guard let originX = originX, let originY = originY, let width = width, let height = height else {
-      return nil
+      throw LayoutError.itemIncomplete
     }
     return CGRect(x: originX, y: originY, width: width, height: height)
   }
@@ -121,12 +127,6 @@ private extension CGPoint {
   }
 }
 
-public enum LayoutError: Error {
-  case itemOutOfBounds
-  case itemIncomplete
-  case outOfSpace
-}
-
 public class Layout {
 
   private let parentFrame: CGRect
@@ -155,12 +155,7 @@ public class Layout {
     guard index < totalItems else {
       throw LayoutError.itemOutOfBounds
     }
-
-    guard let frame = items[index].frame else {
-      throw LayoutError.itemIncomplete
-    }
-
-    return frame
+    return try items[index].frame()
   }
 }
 

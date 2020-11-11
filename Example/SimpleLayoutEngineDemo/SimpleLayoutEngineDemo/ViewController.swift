@@ -5,25 +5,7 @@
 
 import UIKit
 
-extension CGSize {
-  init(value: CGFloat) {
-    self.init(width: value, height: value)
-  }
-
-  var minEdge: CGFloat {
-    return min(width, height)
-  }
-
-  var direction: Direction {
-    if width > height {
-      return .row
-    } else {
-      return .column
-    }
-  }
-}
-
-extension UIView  {
+private extension UIView  {
   func addSquareImage() {
     let imageView = UIImageView(image: UIImage(named: "square.png"))
     imageView.frame = bounds
@@ -32,7 +14,7 @@ extension UIView  {
   }
 }
 
-class PreviewView: UIView {
+private class PreviewView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     addSquareImage()
@@ -41,7 +23,7 @@ class PreviewView: UIView {
   required init?(coder: NSCoder) { fatalError("not implemented") }
 }
 
-class ThumbnailView: UIView {
+private class ThumbnailView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     addSquareImage()
@@ -50,29 +32,44 @@ class ThumbnailView: UIView {
   required init?(coder: NSCoder) { fatalError("not implemented") }
 }
 
-class FooterView: UIView {
+private class FooterView: UIView {
+
+  private var leftThumbView: UIView?
+  private var rightThumbView: UIView?
+
   override init(frame: CGRect) {
     super.init(frame: frame)
     backgroundColor = .black
+  }
 
+  override func layoutSubviews() {
     let direction = bounds.size.direction
+    let thumbWidth: CGFloat
+    switch direction {
+    case .row:
+      thumbWidth = min(bounds.size.width/2.0 - 4.0, bounds.size.height)
+    case .column:
+      thumbWidth =  min(bounds.size.height/2.0 - 4.0, bounds.size.width)
+    }
+
     let layout = Layout(parentFrame: bounds, direction: direction, alignment: .trailing)
     do {
-      let thumbWidth: CGFloat
-      switch direction {
-      case .row:
-        thumbWidth = min(bounds.size.width/2.0 - 4.0, bounds.size.height)
-      case .column:
-        thumbWidth =  min(bounds.size.height/2.0 - 4.0, bounds.size.width)
-      }
       try layout.add(item: .flexible)
       let leftThumbItem = try layout.add(item: .size(CGSize(value: thumbWidth)))
       try layout.add(item: .flexible)
       let rightThumbItem = try layout.add(item: .size(CGSize(value: thumbWidth)))
       try layout.add(item: .flexible)
 
-      addSubview(ThumbnailView(frame: leftThumbItem.frame!))
-      addSubview(ThumbnailView(frame: rightThumbItem.frame!))
+      if let leftThumbView = self.leftThumbView {
+        leftThumbView.frame = try leftThumbItem.frame()
+      } else {
+        leftThumbView = add(subview: ThumbnailView(frame: try leftThumbItem.frame()))
+      }
+      if let rightThumbView = self.rightThumbView {
+        rightThumbView.frame = try rightThumbItem.frame()
+      } else {
+        rightThumbView = add(subview: ThumbnailView(frame: try rightThumbItem.frame()))
+      }
     } catch let error {
       assertionFailure(error.localizedDescription)
     }
@@ -81,7 +78,7 @@ class FooterView: UIView {
   required init?(coder: NSCoder) { fatalError("not implemented") }
 }
 
-class Toolbar: UIView {
+private class Toolbar: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     backgroundColor = UIColor(hue: 0.4, saturation: 0.8, brightness: 0.8, alpha: 1)
@@ -90,53 +87,40 @@ class Toolbar: UIView {
   required init?(coder: NSCoder) { fatalError("not implemented") }
 }
 
-class ContentView: UIView {
+private class ContentView: UIView {
+
   override init(frame: CGRect) {
     super.init(frame: frame)
     backgroundColor = .lightGray
+  }
 
+  required init?(coder: NSCoder) { fatalError("not implemented") }
+
+  override func layoutSubviews() {
     let direction = bounds.size.direction
     let layout = Layout(parentFrame: bounds, direction: direction, alignment: .leading)
     do {
       let previewItem = try layout.add(item: .size(CGSize(value: bounds.size.minEdge))) // add square
-      let toolbarItem = try layout.add(item: .direction(direction, 44))
+      let toolbarItem = try layout.add(item: .dynamic(direction, 44))
       let footerItem = try layout.add(item: .flexible)
-
-      addSubview(PreviewView(frame: previewItem.frame!))
-      addSubview(Toolbar(frame: toolbarItem.frame!))
-      addSubview(FooterView(frame: footerItem.frame!))
+      addOrUpdateSubview(type: PreviewView.self, frame: try previewItem.frame())
+      addOrUpdateSubview(type: Toolbar.self, frame: try toolbarItem.frame())
+      addOrUpdateSubview(type: FooterView.self, frame: try footerItem.frame())
     } catch let error {
       assertionFailure(error.localizedDescription)
     }
   }
-
-  required init?(coder: NSCoder) { fatalError("not implemented") }
 }
 
-class ViewController: UIViewController {
+class ViewController: BaseViewController {
 
-  private var isSetup = false
+  private var contentView: UIView?
 
-  override func viewDidLayoutSubviews() {
-    // the view.safeAreaInsets is not available at viewDidLoad
-    if !isSetup {
-      setup()
-      isSetup = true
-    }
+  override func addViews(frame: CGRect) {
+    contentView = view.add(subview: ContentView(frame: frame))
   }
 
-  func setup() {
-    let layout = Layout(parentFrame: view.bounds, direction: .column, alignment: .leading)
-    do {
-      try layout.add(item: .height(view.safeAreaInsets.top))
-      let contentItem = try layout.add(item: .flexible)
-      try layout.add(item: .height(view.safeAreaInsets.bottom))
-
-      let contentView = ContentView(frame: contentItem.frame!)
-      view.addSubview(contentView)
-    } catch let error {
-      assertionFailure(error.localizedDescription)
-    }
-    view.backgroundColor = .white
+  override func updateViews(frame: CGRect) {
+    contentView?.frame = frame
   }
 }
