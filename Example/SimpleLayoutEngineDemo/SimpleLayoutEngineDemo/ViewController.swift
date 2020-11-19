@@ -5,41 +5,16 @@
 
 import UIKit
 
-private extension UIView  {
-  func addSquareImage() {
-    let imageView = UIImageView(image: UIImage(named: "square.png"))
-    imageView.frame = bounds
-    imageView.contentMode = .scaleAspectFill
-    addSubview(imageView)
-  }
-}
-
-private class PreviewView: UIView {
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    addSquareImage()
-  }
-
-  required init?(coder: NSCoder) { fatalError("not implemented") }
-}
-
-private class ThumbnailView: UIView {
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    addSquareImage()
-  }
-
-  required init?(coder: NSCoder) { fatalError("not implemented") }
-}
-
 private class FooterView: UIView {
 
   private var leftThumbView: UIView?
   private var rightThumbView: UIView?
+  private let action: TapAction
 
-  override init(frame: CGRect) {
+  init(frame: CGRect, action: @escaping TapAction) {
+    self.action = action
     super.init(frame: frame)
-    backgroundColor = .black
+    backgroundColor = .white
   }
 
   override func layoutSubviews() {
@@ -63,12 +38,12 @@ private class FooterView: UIView {
       if let leftThumbView = self.leftThumbView {
         leftThumbView.frame = try leftThumbItem.frame()
       } else {
-        leftThumbView = add(subview: ThumbnailView(frame: try leftThumbItem.frame()))
+        leftThumbView = add(subview: ImageView(frame: try leftThumbItem.frame(), action: action))
       }
       if let rightThumbView = self.rightThumbView {
         rightThumbView.frame = try rightThumbItem.frame()
       } else {
-        rightThumbView = add(subview: ThumbnailView(frame: try rightThumbItem.frame()))
+        rightThumbView = add(subview: ImageView(frame: try rightThumbItem.frame(), action: action))
       }
     } catch let error {
       assertionFailure(error.localizedDescription)
@@ -89,7 +64,13 @@ private class Toolbar: UIView {
 
 private class ContentView: UIView {
 
-  override init(frame: CGRect) {
+  private var previewView: ImageView?
+  private var toolbar: Toolbar?
+  private var footerView: FooterView?
+  private let action: TapAction
+
+  init(frame: CGRect, action: @escaping TapAction) {
+    self.action = action
     super.init(frame: frame)
     backgroundColor = .lightGray
   }
@@ -103,9 +84,25 @@ private class ContentView: UIView {
       let previewItem = try layout.add(item: .size(CGSize(value: bounds.size.minEdge))) // add square
       let toolbarItem = try layout.add(item: .dynamic(direction, 44))
       let footerItem = try layout.add(item: .flexible)
-      addOrUpdateSubview(type: PreviewView.self, frame: try previewItem.frame())
-      addOrUpdateSubview(type: Toolbar.self, frame: try toolbarItem.frame())
-      addOrUpdateSubview(type: FooterView.self, frame: try footerItem.frame())
+
+      if previewView == nil {
+        previewView = add(subview: ImageView(frame: try previewItem.frame(), action: action))
+      } else {
+        previewView?.frame = try previewItem.frame()
+      }
+
+      if toolbar == nil {
+        toolbar = add(subview: Toolbar(frame: try toolbarItem.frame()))
+      } else {
+        toolbar?.frame = try toolbarItem.frame()
+      }
+
+      if footerView == nil {
+        footerView = add(subview: FooterView(frame: try footerItem.frame(), action: action))
+      } else {
+        footerView?.frame = try footerItem.frame()
+      }
+
     } catch let error {
       assertionFailure(error.localizedDescription)
     }
@@ -114,13 +111,29 @@ private class ContentView: UIView {
 
 class ViewController: BaseViewController {
 
-  private var contentView: UIView?
+  private var contentView: ContentView?
+  private var animationController: UIViewControllerTransitioningDelegate?
 
   override func addViews(frame: CGRect) {
-    contentView = view.add(subview: ContentView(frame: frame))
+    let action: TapAction = { fromView in
+      let fr = self.view.convert(fromView.bounds, from: fromView)
+      self.showDetails(frame: fr)
+    }
+
+    contentView = view.add(subview: ContentView(frame: frame, action: action))
   }
 
   override func updateViews(frame: CGRect) {
     contentView?.frame = frame
   }
+
+  private func showDetails(frame: CGRect) {
+    let detailVwCtrl = DetailViewController()
+    animationController = TransitionController(frame: frame)
+    detailVwCtrl.transitioningDelegate = animationController
+    detailVwCtrl.modalPresentationStyle = .fullScreen
+    present(detailVwCtrl, animated: true, completion: nil)
+  }
 }
+
+

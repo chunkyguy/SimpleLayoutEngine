@@ -19,6 +19,8 @@
 		791FB272255C17830001BCBA /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791FB271255C17830001BCBA /* BaseViewController.swift */; };
 		791FB276255C1DEF0001BCBA /* CoreGraphics+SLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791FB275255C1DEF0001BCBA /* CoreGraphics+SLE.swift */; };
 		791FB27D255C84700001BCBA /* UIKit+SLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791FB27C255C84700001BCBA /* UIKit+SLE.swift */; };
+		79E73E602561A70800A49F1D /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E73E5F2561A70800A49F1D /* ImageView.swift */; };
+		79E73E642561C25400A49F1D /* TransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E73E632561C25400A49F1D /* TransitionController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		791FB271255C17830001BCBA /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		791FB275255C1DEF0001BCBA /* CoreGraphics+SLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+SLE.swift"; sourceTree = "<group>"; };
 		791FB27C255C84700001BCBA /* UIKit+SLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+SLE.swift"; sourceTree = "<group>"; };
+		79E73E5F2561A70800A49F1D /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		79E73E632561C25400A49F1D /* TransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,9 +79,11 @@
 				791FB22C255AD1440001BCBA /* SceneDelegate.swift */,
 				791FB27C255C84700001BCBA /* UIKit+SLE.swift */,
 				791FB275255C1DEF0001BCBA /* CoreGraphics+SLE.swift */,
+				79E73E5F2561A70800A49F1D /* ImageView.swift */,
 				791FB271255C17830001BCBA /* BaseViewController.swift */,
 				791FB22E255AD1440001BCBA /* ViewController.swift */,
 				791FB26E255C16DF0001BCBA /* DetailViewController.swift */,
+				79E73E632561C25400A49F1D /* TransitionController.swift */,
 				791FB269255B40A90001BCBA /* square.png */,
 				791FB230255AD1440001BCBA /* Main.storyboard */,
 				791FB233255AD1460001BCBA /* Assets.xcassets */,
@@ -174,6 +180,8 @@
 				791FB27D255C84700001BCBA /* UIKit+SLE.swift in Sources */,
 				791FB26F255C16DF0001BCBA /* DetailViewController.swift in Sources */,
 				791FB22B255AD1440001BCBA /* AppDelegate.swift in Sources */,
+				79E73E602561A70800A49F1D /* ImageView.swift in Sources */,
+				79E73E642561C25400A49F1D /* TransitionController.swift in Sources */,
 				791FB22D255AD1440001BCBA /* SceneDelegate.swift in Sources */,
 				791FB272255C17830001BCBA /* BaseViewController.swift in Sources */,
 			);
