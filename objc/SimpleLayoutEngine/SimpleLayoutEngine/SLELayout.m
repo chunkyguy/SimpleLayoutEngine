@@ -95,21 +95,21 @@
 
 - (void)updateFrames
 {
-  // calculate flex space
-  CGFloat usedSpace = 0;
+  CGFloat totalFlexSpace = _direction == SLELayoutDirectionColumn ? CGRectGetHeight(_parentFrame) : CGRectGetWidth(_parentFrame);
   NSInteger flexItems = 0;
+
+  // calculate flex space
   for (SLELayoutItem *item in _items) {
     CGFloat itemSpace = (_direction == SLELayoutDirectionColumn) ? item.originalSize.height : item.originalSize.width;
     if (itemSpace == kSLELayoutValueUndefined) {
       flexItems += 1;
     } else {
-      usedSpace += itemSpace;
+      totalFlexSpace -= itemSpace;
     }
   }
 
   // update item frame
-  CGFloat maxFlexSpace = _direction == SLELayoutDirectionColumn ? CGRectGetHeight(_parentFrame) : CGRectGetWidth(_parentFrame);
-  CGFloat itemSpace = (maxFlexSpace - usedSpace) / (CGFloat)flexItems;
+  CGFloat itemSpace = (totalFlexSpace) / (CGFloat)(MAX(flexItems, 1));
   NSAssert(itemSpace >= 0, @"Not sufficient space");
   CGPoint itemOrigin = _parentFrame.origin;
   for (SLELayoutItem *item in _items) {
