@@ -1,12 +1,30 @@
 //
-// Created by Sidharth Juyal on 11/11/2020.
-// Copyright © 2020 whackylabs. All rights reserved.
+// Created by Sidharth Juyal on 10/04/2022.
+// Copyright © 2022 whackylabs. All rights reserved.
 // 
 
 import Foundation
 import UIKit
 
-class BaseViewController: UIViewController {
+extension CGSize {
+  init(value: CGFloat) {
+    self.init(width: value, height: value)
+  }
+
+  var minEdge: CGFloat {
+    return min(width, height)
+  }
+
+  var direction: Direction {
+    if width > height {
+      return .row
+    } else {
+      return .column
+    }
+  }
+}
+
+class SLEViewController: UIViewController {
 
   private var isSetup = false
 

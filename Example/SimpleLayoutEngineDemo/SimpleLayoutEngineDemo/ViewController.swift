@@ -109,7 +109,7 @@ private class ContentView: UIView {
   }
 }
 
-class ViewController: BaseViewController {
+class ViewController: SLEViewController {
 
   private var contentView: ContentView?
   private var animationController: UIViewControllerTransitioningDelegate?

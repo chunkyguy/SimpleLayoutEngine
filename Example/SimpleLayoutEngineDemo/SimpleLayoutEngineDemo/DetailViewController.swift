@@ -38,7 +38,7 @@ private class ContentView: UIView {
   required init?(coder: NSCoder) { fatalError("not implemented") }
 }
 
-class DetailViewController: BaseViewController {
+class DetailViewController: SLEViewController {
 
   private var contentView: UIView?
 
