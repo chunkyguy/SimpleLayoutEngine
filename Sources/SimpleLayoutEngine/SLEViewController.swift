@@ -43,9 +43,10 @@ class SLEViewController: UIViewController {
       layout(frame: view.bounds, update: addViews)
       isSetup = true
     }
+    updateViews(frame: view.bounds)
   }
 
-  func layout(frame: CGRect, update: (CGRect) -> Void) {
+  private func layout(frame: CGRect, update: (CGRect) -> Void) {
     let direction = frame.size.direction
     let layout = Layout(parentFrame: frame, direction: direction, alignment: .leading)
     do {
