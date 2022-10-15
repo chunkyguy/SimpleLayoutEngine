@@ -15,7 +15,7 @@ extension CGSize {
     return min(width, height)
   }
 
-  var direction: Direction {
+  var direction: SLEDirection {
     if width > height {
       return .row
     } else {
@@ -48,7 +48,7 @@ class SLEViewController: UIViewController {
 
   private func layout(frame: CGRect, update: (CGRect) -> Void) {
     let direction = frame.size.direction
-    let layout = Layout(parentFrame: frame, direction: direction, alignment: .leading)
+    let layout = SLELayout(parentFrame: frame, direction: direction, alignment: .leading)
     do {
       let leading: CGFloat
       let trailing: CGFloat
@@ -60,11 +60,8 @@ class SLEViewController: UIViewController {
         leading = view.safeAreaInsets.left
         trailing = view.safeAreaInsets.right
       }
-
-      try layout.add(item: .dynamic(direction, leading))
-      let contentItem = try layout.add(item: .flexible)
-      try layout.add(item: .dynamic(direction, trailing))
-      update(try contentItem.frame())
+      let items = try layout.add(items: [.dynamic(direction, leading), .flexible, .dynamic(direction, trailing)])
+      update(try items[1].frame())
     } catch let error {
       assertionFailure(error.localizedDescription)
     }

@@ -1,17 +1,17 @@
 import CoreGraphics
 
-public enum Direction {
+public enum SLEDirection {
   case row
   case column
 }
 
-public enum Alignment {
+public enum SLEAlignment {
   case leading
   case center
   case trailing
 }
 
-private extension Alignment {
+private extension SLEAlignment {
   func align(parent: CGFloat, item: CGFloat) -> CGFloat {
     switch self {
     case .leading: return 0
@@ -21,7 +21,7 @@ private extension Alignment {
   }
 }
 
-public enum LayoutError: Error {
+public enum SLELayoutError: Error {
   case itemOutOfBounds
   case itemIncomplete
   case outOfSpace
@@ -37,7 +37,7 @@ private extension CGPoint {
   }
 }
 
-private class Rect {
+private class SLERect {
   internal private(set) var width: CGFloat?
   internal private(set) var height: CGFloat?
   private var x: CGFloat?
@@ -45,7 +45,7 @@ private class Rect {
 
   func frame() throws -> CGRect {
     guard let originX = x, let originY = y, let width = width, let height = height else {
-      throw LayoutError.itemIncomplete
+      throw SLELayoutError.itemIncomplete
     }
     return CGRect(x: originX, y: originY, width: width, height: height)
   }
@@ -67,28 +67,28 @@ private class Rect {
   }
 }
 
-public class Item {
-  public static var flexible: Item {
-    return Item(width: nil, height: nil)
+public class SLEItem {
+  public static var flexible: SLEItem {
+    return SLEItem(width: nil, height: nil)
   }
 
-  public static func width(_ value: CGFloat) -> Item {
-    return Item(width: value, height: nil)
+  public static func width(_ value: CGFloat) -> SLEItem {
+    return SLEItem(width: value, height: nil)
   }
 
-  public static func height(_ value: CGFloat) -> Item {
-    return Item(width: nil, height: value)
+  public static func height(_ value: CGFloat) -> SLEItem {
+    return SLEItem(width: nil, height: value)
   }
 
-  public static func dynamic(_ direction: Direction, _ value: CGFloat) -> Item {
+  public static func dynamic(_ direction: SLEDirection, _ value: CGFloat) -> SLEItem {
     switch direction {
     case .column: return .height(value)
     case .row: return .width(value)
     }
   }
 
-  public static func size(_ value: CGSize) -> Item {
-    return Item(width: value.width, height: value.height)
+  public static func size(_ value: CGSize) -> SLEItem {
+    return SLEItem(width: value.width, height: value.height)
   }
 
   public func frame() throws -> CGRect {
@@ -97,7 +97,7 @@ public class Item {
 
   internal let originalWidth: CGFloat?
   internal let originalHeight: CGFloat?
-  private let rect = Rect()
+  private let rect = SLERect()
 
   private init(width: CGFloat?, height: CGFloat?) {
     originalWidth = width
@@ -105,15 +105,15 @@ public class Item {
   }
 }
 
-private extension Item {
-  func value(in direction: Direction) -> CGFloat? {
+private extension SLEItem {
+  func value(in direction: SLEDirection) -> CGFloat? {
     switch direction {
     case .row: return originalWidth
     case .column: return originalHeight
     }
   }
 
-  func updateSize(value: CGFloat, in direction: Direction, parentSize: CGSize) {
+  func updateSize(value: CGFloat, in direction: SLEDirection, parentSize: CGSize) {
     switch direction {
     case .row:
       rect.set(size: CGSize(width: originalWidth ?? value, height: originalHeight ?? parentSize.height))
@@ -123,7 +123,7 @@ private extension Item {
     }
   }
 
-  func updateOrigin(itemOrigin: CGPoint, in direction: Direction, alignment: Alignment, parentFrame: CGRect) -> CGPoint {
+  func updateOrigin(itemOrigin: CGPoint, in direction: SLEDirection, alignment: SLEAlignment, parentFrame: CGRect) -> CGPoint {
     switch direction {
     case .row:
       rect.set(origin: CGPoint(x: itemOrigin.x, y: parentFrame.origin.y + alignment.align(parent: parentFrame.height, item: rect.height ?? 0)))
@@ -135,14 +135,14 @@ private extension Item {
   }
 }
 
-public class Layout {
+public class SLELayout {
 
   private let parentFrame: CGRect
-  private let direction: Direction
-  private let alignment: Alignment
-  private var items: [Item] = []
+  private let direction: SLEDirection
+  private let alignment: SLEAlignment
+  private var items: [SLEItem] = []
 
-  public init(parentFrame: CGRect, direction: Direction, alignment: Alignment) {
+  public init(parentFrame: CGRect, direction: SLEDirection, alignment: SLEAlignment) {
     self.parentFrame = parentFrame
     self.direction = direction
     self.alignment = alignment
@@ -153,7 +153,14 @@ public class Layout {
   }
 
   @discardableResult
-  public func add(item: Item) throws -> Item {
+  public func add(items: [SLEItem]) throws -> [SLEItem] {
+    self.items.append(contentsOf: items)
+    try updateFrames()
+    return items
+  }
+
+  @discardableResult
+  public func add(item: SLEItem) throws -> SLEItem {
     items.append(item)
     try updateFrames()
     return item
@@ -161,13 +168,13 @@ public class Layout {
 
   public func frame(at index: Int) throws -> CGRect {
     guard index < totalItems else {
-      throw LayoutError.itemOutOfBounds
+      throw SLELayoutError.itemOutOfBounds
     }
     return try items[index].frame()
   }
 }
 
-private extension Layout {
+private extension SLELayout {
   func updateFrames() throws {
     var totalFlexSpace: CGFloat = {
       switch direction {
@@ -186,7 +193,7 @@ private extension Layout {
 
     let itemSpace = totalFlexSpace/CGFloat(max(flexItems, 1))
     guard itemSpace >= 0 else {
-      throw LayoutError.outOfSpace
+      throw SLELayoutError.outOfSpace
     }
 
     var itemOrigin = parentFrame.origin
