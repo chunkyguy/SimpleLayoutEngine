@@ -3,6 +3,7 @@
 // Copyright © 2022 whackylabs. All rights reserved.
 // 
 
+#if os(iOS)
 import Foundation
 import UIKit
 
@@ -75,3 +76,4 @@ class SLEViewController: UIViewController {
   func addViews(frame: CGRect) {}
   func updateViews(frame: CGRect) {}
 }
+#endif

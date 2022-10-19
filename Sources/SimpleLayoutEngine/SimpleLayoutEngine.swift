@@ -142,6 +142,14 @@ public class SLELayout {
   private let alignment: SLEAlignment
   private var items: [SLEItem] = []
 
+  // Usually the layout system calculates coordinates for UIKit like systems
+  // Where left: -x right: +x top -y bottom: +y
+  // But in certain situtions it might not be ideal
+  // Example 1: coordinate systems with y increasing upwards, like mac or SpriteKit
+  // Example 2: right-to-left languages
+  // Then `isFlipped` can be set to `true`
+  var isFlipped = false
+
   public init(parentFrame: CGRect, direction: SLEDirection, alignment: SLEAlignment) {
     self.parentFrame = parentFrame
     self.direction = direction
@@ -154,14 +162,22 @@ public class SLELayout {
 
   @discardableResult
   public func add(items: [SLEItem]) throws -> [SLEItem] {
-    self.items.append(contentsOf: items)
+    if isFlipped {
+      self.items.append(contentsOf: items.reversed())
+    } else {
+      self.items.append(contentsOf: items)
+    }
     try updateFrames()
     return items
   }
 
   @discardableResult
   public func add(item: SLEItem) throws -> SLEItem {
-    items.append(item)
+    if isFlipped {
+      items.insert(item, at: 0)
+    } else {
+      items.append(item)
+    }
     try updateFrames()
     return item
   }
