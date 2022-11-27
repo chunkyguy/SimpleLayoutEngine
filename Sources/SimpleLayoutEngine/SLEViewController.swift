@@ -16,7 +16,7 @@ extension CGSize {
     return min(width, height)
   }
 
-  var direction: SLEDirection {
+  var direction: Direction {
     if width > height {
       return .row
     } else {
@@ -49,7 +49,7 @@ class SLEViewController: UIViewController {
 
   private func layout(frame: CGRect, update: (CGRect) -> Void) {
     let direction = frame.size.direction
-    let layout = SLELayout(parentFrame: frame, direction: direction, alignment: .leading)
+    let layout = Layout(parentFrame: frame, direction: direction, alignment: .leading)
     do {
       let leading: CGFloat
       let trailing: CGFloat

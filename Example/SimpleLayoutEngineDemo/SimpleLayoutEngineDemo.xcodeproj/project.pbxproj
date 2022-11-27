@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,13 +13,12 @@
 		791FB232255AD1440001BCBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 791FB230255AD1440001BCBA /* Main.storyboard */; };
 		791FB234255AD1460001BCBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 791FB233255AD1460001BCBA /* Assets.xcassets */; };
 		791FB237255AD1460001BCBA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 791FB235255AD1460001BCBA /* LaunchScreen.storyboard */; };
-		791FB25B255AD51A0001BCBA /* SimpleLayoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791FB25A255AD51A0001BCBA /* SimpleLayoutEngine.swift */; };
 		791FB26A255B40A90001BCBA /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = 791FB269255B40A90001BCBA /* square.png */; };
 		791FB26F255C16DF0001BCBA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791FB26E255C16DF0001BCBA /* DetailViewController.swift */; };
 		791FB27D255C84700001BCBA /* UIKit+SLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791FB27C255C84700001BCBA /* UIKit+SLE.swift */; };
-		7945319C2802CAF40008D9D0 /* SLEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7945319B2802CAF40008D9D0 /* SLEViewController.swift */; };
 		79E73E602561A70800A49F1D /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E73E5F2561A70800A49F1D /* ImageView.swift */; };
 		79E73E642561C25400A49F1D /* TransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E73E632561C25400A49F1D /* TransitionController.swift */; };
+		79EA62962933ACB9005F2629 /* SimpleLayoutEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 79EA62952933ACB9005F2629 /* SimpleLayoutEngine */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,12 +30,10 @@
 		791FB233255AD1460001BCBA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		791FB236255AD1460001BCBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		791FB238255AD1460001BCBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		791FB25A255AD51A0001BCBA /* SimpleLayoutEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleLayoutEngine.swift; sourceTree = "<group>"; };
 		791FB266255B35CC0001BCBA /* SimpleLayoutEngineDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimpleLayoutEngineDemo.entitlements; sourceTree = "<group>"; };
 		791FB269255B40A90001BCBA /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
 		791FB26E255C16DF0001BCBA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		791FB27C255C84700001BCBA /* UIKit+SLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+SLE.swift"; sourceTree = "<group>"; };
-		7945319B2802CAF40008D9D0 /* SLEViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLEViewController.swift; sourceTree = "<group>"; };
 		79E73E5F2561A70800A49F1D /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		79E73E632561C25400A49F1D /* TransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -46,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79EA62962933ACB9005F2629 /* SimpleLayoutEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,7 +53,6 @@
 		791FB21E255AD1440001BCBA = {
 			isa = PBXGroup;
 			children = (
-				791FB259255AD51A0001BCBA /* SimpleLayoutEngine */,
 				791FB229255AD1440001BCBA /* SimpleLayoutEngineDemo */,
 				791FB228255AD1440001BCBA /* Products */,
 			);
@@ -89,16 +86,6 @@
 			path = SimpleLayoutEngineDemo;
 			sourceTree = "<group>";
 		};
-		791FB259255AD51A0001BCBA /* SimpleLayoutEngine */ = {
-			isa = PBXGroup;
-			children = (
-				791FB25A255AD51A0001BCBA /* SimpleLayoutEngine.swift */,
-				7945319B2802CAF40008D9D0 /* SLEViewController.swift */,
-			);
-			name = SimpleLayoutEngine;
-			path = ../../Sources/SimpleLayoutEngine;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -115,6 +102,9 @@
 			dependencies = (
 			);
 			name = SimpleLayoutEngineDemo;
+			packageProductDependencies = (
+				79EA62952933ACB9005F2629 /* SimpleLayoutEngine */,
+			);
 			productName = SimpleLayoutEngineDemo;
 			productReference = 791FB227255AD1440001BCBA /* SimpleLayoutEngineDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -143,6 +133,9 @@
 				Base,
 			);
 			mainGroup = 791FB21E255AD1440001BCBA;
+			packageReferences = (
+				79EA62942933ACB9005F2629 /* XCRemoteSwiftPackageReference "SimpleLayoutEngine" */,
+			);
 			productRefGroup = 791FB228255AD1440001BCBA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -172,8 +165,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				791FB22F255AD1440001BCBA /* ViewController.swift in Sources */,
-				7945319C2802CAF40008D9D0 /* SLEViewController.swift in Sources */,
-				791FB25B255AD51A0001BCBA /* SimpleLayoutEngine.swift in Sources */,
 				791FB27D255C84700001BCBA /* UIKit+SLE.swift in Sources */,
 				791FB26F255C16DF0001BCBA /* DetailViewController.swift in Sources */,
 				791FB22B255AD1440001BCBA /* AppDelegate.swift in Sources */,
@@ -391,6 +382,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		79EA62942933ACB9005F2629 /* XCRemoteSwiftPackageReference "SimpleLayoutEngine" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/chunkyguy/SimpleLayoutEngine";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		79EA62952933ACB9005F2629 /* SimpleLayoutEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79EA62942933ACB9005F2629 /* XCRemoteSwiftPackageReference "SimpleLayoutEngine" */;
+			productName = SimpleLayoutEngine;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 791FB21F255AD1440001BCBA /* Project object */;
 }

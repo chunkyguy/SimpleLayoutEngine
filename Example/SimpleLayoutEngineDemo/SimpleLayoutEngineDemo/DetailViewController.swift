@@ -5,6 +5,7 @@
 
 import Foundation
 import UIKit
+import SimpleLayoutEngine
 
 struct DetailViewLayout {
   private let frame: CGRect
@@ -14,7 +15,7 @@ struct DetailViewLayout {
 
   var imageFrame: CGRect {
     do {
-      let layout = Layout(parentFrame: frame, direction: .column, alignment: .center)
+      let layout = SLELayout(parentFrame: frame, direction: .column, alignment: .center)
       try layout.add(item: .flexible)
       let imageItem = try layout.add(item: .size(CGSize(value: frame.size.minEdge)))
       try layout.add(item: .flexible)

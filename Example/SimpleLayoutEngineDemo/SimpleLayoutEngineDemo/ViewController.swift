@@ -4,6 +4,7 @@
 // 
 
 import UIKit
+import SimpleLayoutEngine
 
 private class FooterView: UIView {
 
@@ -27,7 +28,7 @@ private class FooterView: UIView {
       thumbWidth =  min(bounds.size.height/2.0 - 4.0, bounds.size.width)
     }
 
-    let layout = Layout(parentFrame: bounds, direction: direction, alignment: .trailing)
+    let layout = SLELayout(parentFrame: bounds, direction: direction, alignment: .trailing)
     do {
       try layout.add(item: .flexible)
       let leftThumbItem = try layout.add(item: .size(CGSize(value: thumbWidth)))
@@ -79,7 +80,7 @@ private class ContentView: UIView {
 
   override func layoutSubviews() {
     let direction = bounds.size.direction
-    let layout = Layout(parentFrame: bounds, direction: direction, alignment: .leading)
+    let layout = SLELayout(parentFrame: bounds, direction: direction, alignment: .leading)
     do {
       let previewItem = try layout.add(item: .size(CGSize(value: bounds.size.minEdge))) // add square
       let toolbarItem = try layout.add(item: .dynamic(direction, 44))
@@ -135,5 +136,3 @@ class ViewController: SLEViewController {
     present(detailVwCtrl, animated: true, completion: nil)
   }
 }
-
-
