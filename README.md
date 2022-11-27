@@ -1,6 +1,6 @@
 # SimpleLayoutEngine
 
-A simplistic layout engine for iOS
+A simplistic layout engine
 
 Read this: [Introducing Simple Layout Engine](https://medium.com/@chunkyguy/introducing-simple-layout-engine-7106a4981202)
 
