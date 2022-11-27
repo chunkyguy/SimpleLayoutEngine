@@ -4,6 +4,7 @@
 // 
 
 import UIKit
+import SimpleLayoutEngine
 
 extension UIView {
   @discardableResult func add<T: UIView>(subview: T) -> T {
