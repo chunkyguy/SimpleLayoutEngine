@@ -2,7 +2,7 @@
 
 A simplistic layout engine
 
-Read this: [Introducing Simple Layout Engine](https://medium.com/@chunkyguy/introducing-simple-layout-engine-7106a4981202)
+Read this: [Introducing Simple Layout Engine](https://whackylabs.com/swift/layout/2022/11/27/intro-simple-layout-engine/)
 
 ### Objective-C version
 

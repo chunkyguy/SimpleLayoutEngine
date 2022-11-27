@@ -34,6 +34,7 @@
 		791FB269255B40A90001BCBA /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
 		791FB26E255C16DF0001BCBA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		791FB27C255C84700001BCBA /* UIKit+SLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+SLE.swift"; sourceTree = "<group>"; };
+		79B06F0A2933D59800073809 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../README.md; sourceTree = "<group>"; };
 		79E73E5F2561A70800A49F1D /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		79E73E632561C25400A49F1D /* TransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,6 +70,7 @@
 		791FB229255AD1440001BCBA /* SimpleLayoutEngineDemo */ = {
 			isa = PBXGroup;
 			children = (
+				79B06F0A2933D59800073809 /* README.md */,
 				791FB266255B35CC0001BCBA /* SimpleLayoutEngineDemo.entitlements */,
 				791FB22A255AD1440001BCBA /* AppDelegate.swift */,
 				791FB22C255AD1440001BCBA /* SceneDelegate.swift */,
