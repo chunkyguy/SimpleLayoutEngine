@@ -15,7 +15,7 @@ struct DetailViewLayout {
 
   var imageFrame: CGRect {
     do {
-      let layout = SLELayout(parentFrame: frame, direction: .column, alignment: .center)
+      let layout = Layout(parentFrame: frame, direction: .column, alignment: .center)
       try layout.add(item: .flexible)
       let imageItem = try layout.add(item: .size(CGSize(value: frame.size.minEdge)))
       try layout.add(item: .flexible)
@@ -58,8 +58,4 @@ class DetailViewController: SLEViewController {
   override func updateViews(frame: CGRect) {
     contentView?.frame = frame
   }
-
-//  override var preferredStatusBarStyle: UIStatusBarStyle {
-//    .lightContent
-//  }
 }

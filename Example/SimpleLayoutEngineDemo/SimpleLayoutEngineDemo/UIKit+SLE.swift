@@ -17,3 +17,21 @@ extension UIColor {
     self.init(hue: hue, saturation: 0.8, brightness: 0.8, alpha: 1)
   }
 }
+
+extension CGSize {
+  init(value: CGFloat) {
+    self.init(width: value, height: value)
+  }
+
+  var minEdge: CGFloat {
+    return min(width, height)
+  }
+
+  var direction: Direction {
+    if width > height {
+      return .row
+    } else {
+      return .column
+    }
+  }
+}

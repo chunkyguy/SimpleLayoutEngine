@@ -25,7 +25,7 @@ extension CGSize {
   }
 }
 
-class SLEViewController: UIViewController {
+public class SLEViewController: UIViewController {
 
   private var isSetup = false
 
@@ -38,7 +38,7 @@ class SLEViewController: UIViewController {
     }
   }
 
-  override func viewDidLayoutSubviews() {
+  public override func viewDidLayoutSubviews() {
     // the view.safeAreaInsets is not available at viewDidLoad
     if !isSetup {
       layout(frame: view.bounds, update: addViews)
@@ -68,12 +68,12 @@ class SLEViewController: UIViewController {
     }
   }
 
-  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+  public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     layout(frame: CGRect(origin: .zero, size: size), update: updateViews)
   }
 
   // - Need to be subclassed -
-  func addViews(frame: CGRect) {}
-  func updateViews(frame: CGRect) {}
+  public func addViews(frame: CGRect) {}
+  public func updateViews(frame: CGRect) {}
 }
 #endif

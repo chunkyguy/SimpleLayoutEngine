@@ -28,13 +28,13 @@ private class FooterView: UIView {
       thumbWidth =  min(bounds.size.height/2.0 - 4.0, bounds.size.width)
     }
 
-    let layout = SLELayout(parentFrame: bounds, direction: direction, alignment: .trailing)
+    let layout = Layout(parentFrame: bounds, direction: direction, alignment: .trailing)
     do {
-      try layout.add(item: .flexible)
-      let leftThumbItem = try layout.add(item: .size(CGSize(value: thumbWidth)))
-      try layout.add(item: .flexible)
-      let rightThumbItem = try layout.add(item: .size(CGSize(value: thumbWidth)))
-      try layout.add(item: .flexible)
+      try layout.add(item: Item.flexible)
+      let leftThumbItem = try layout.add(item: Item.size(CGSize(value: thumbWidth)))
+      try layout.add(item: Item.flexible)
+      let rightThumbItem = try layout.add(item: Item.size(CGSize(value: thumbWidth)))
+      try layout.add(item: Item.flexible)
 
       if let leftThumbView = self.leftThumbView {
         leftThumbView.frame = try leftThumbItem.frame()
@@ -80,11 +80,11 @@ private class ContentView: UIView {
 
   override func layoutSubviews() {
     let direction = bounds.size.direction
-    let layout = SLELayout(parentFrame: bounds, direction: direction, alignment: .leading)
+    let layout = Layout(parentFrame: bounds, direction: direction, alignment: .leading)
     do {
-      let previewItem = try layout.add(item: .size(CGSize(value: bounds.size.minEdge))) // add square
-      let toolbarItem = try layout.add(item: .dynamic(direction, 44))
-      let footerItem = try layout.add(item: .flexible)
+      let previewItem = try layout.add(item: Item.size(CGSize(value: bounds.size.minEdge))) // add square
+      let toolbarItem = try layout.add(item: Item.dynamic(direction, 44))
+      let footerItem = try layout.add(item: Item.flexible)
 
       if previewView == nil {
         previewView = add(subview: ImageView(frame: try previewItem.frame(), action: action))
